@@ -7,6 +7,20 @@ import ModalVideo from 'react-modal-video'
 import Slider from "react-slick"
 
 
+type Car = {
+  id?: number
+  name: string
+  image?: string
+  price?: number
+}
+
+type StepCarDetailsProps  = {
+    car: Car | null
+    onNext : () => void
+    onBack : () => void
+}
+
+
 const SlickArrowLeft = ({ currentSlide, slideCount, ...props }: any) => (
     <button
         {...props}
@@ -35,7 +49,7 @@ export default function StepCarDetails({
     car,
     onNext,
     onBack
-}) {
+}: StepCarDetailsProps) {
     const [isOpen, setOpen] = useState(false)
     const [nav1, setNav1] = useState(null)
     const [nav2, setNav2] = useState(null)
