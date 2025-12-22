@@ -10,7 +10,7 @@ export default function Cta3() {
 					<div className="container">
 						<div className="row align-items-center">
 							<div className="col-lg-5 pe-lg-5">
-								<Link className="btn btn-primary mt-5 mb-4 " href="/cars-list-3">
+								<Link className="btn btn-primary mt-5 mb-4 " href="/booking-page">
 									Booking Now
 									<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path d="M8 15L15 8L8 1M15 8L1 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

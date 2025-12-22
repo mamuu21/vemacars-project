@@ -8,12 +8,7 @@ export default function CarCard2({ car }: any) {
 					<Link href="/cars-details-3"><img src={`/assets/imgs/cars-listing/cars-listing-6/${car.image}`} alt="Carento" /></Link>
 				</div>
 				<div className="card-info p-md-40 p-3">
-					<label className="sale-lbl">-25%</label>
-					<div className="tour-rate">
-						<div className="rate-element">
-							<span className="rating">4.96 <span className="text-sm-medium neutral-500">(672 reviews)</span></span>
-						</div>
-					</div>
+					
 					<div className="card-title"><Link className="heading-6 neutral-1000" href="/cars-details-3">{car.name}</Link></div>
 					<div className="card-program">
 						<div className="card-location mb-25">
@@ -37,6 +32,15 @@ export default function CarCard2({ car }: any) {
 							</div>
 							<div className="item-facilities">
 								<p className="pet text-md-medium neutral-1000">SUVs</p>
+							</div>
+							<div className="item-facilities">
+								<p className="pet text-md-medium neutral-1000">Pickup date</p>
+							</div>
+							<div className="item-facilities">
+								<p className="pet text-md-medium neutral-1000">Return date</p>
+							</div>
+							<div className="item-facilities">
+								<p className="pet text-md-medium neutral-1000">Payment Status: Paid</p>
 							</div>
 						</div>
 						<div className="endtime">

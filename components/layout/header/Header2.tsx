@@ -74,13 +74,13 @@ export default function Header2({ scroll, isMobileMenu, handleMobileMenu, handle
 											<Link href="/">Home</Link>
 										</li>
 										<li>
-											<Link href="cars-list-3">Cars List</Link>
+											<Link href="booking-page">Cars List</Link>
 										</li>
 										<li>
-											<Link href="cars-list-4">My Bookings</Link>
+											<Link href="cars-list-4">Reservations</Link>
 										</li>
 										
-										<li className="has-children">
+										{/* <li className="has-children">
 											<Link href="#">Pages</Link>
 											<ul className="sub-menu">
 												<li><Link href="/about-us">About Us</Link></li>
@@ -94,7 +94,7 @@ export default function Header2({ scroll, isMobileMenu, handleMobileMenu, handle
 												<li><Link href="/register">Register</Link></li>
 												<li><Link href="/404">Error 404</Link></li>
 											</ul>
-										</li>
+										</li> */}
 									</ul>
 								</nav>
 							</div>

@@ -1,6 +1,6 @@
 'use client'
 
-import ProgressBar from '@/components/elements/ProgressBar'
+import ProgressBar from '@/app/booking-page/Progressbar'
 import CarCard1 from '@/components/elements/carcard/CarCard1'
 import HeroSearch from '@/components/elements/HeroSearch'
 import SortCarsFilter from '@/components/elements/SortCarsFilter'
@@ -36,31 +36,11 @@ export default function CarsList3() {
       <div>
         <ProgressBar currentStepId={1} />
 
-        {/* PAGE HEADER */}
-        <div className="page-header-2 pt-30 background-body">
-          <div className="custom-container position-relative mx-auto">
-            <div className="bg-overlay rounded-12 overflow-hidden">
-              <img
-                className="w-100 h-100 img-fluid img-banner"
-                src="/assets/imgs/page-header/banner6.png"
-                alt="Carento"
-              />
-            </div>
-
-            <div className="container position-absolute z-1 top-50 start-50 pb-70 translate-middle text-center">
-              <span className="text-sm-bold bg-2 px-4 py-3 rounded-12">
-                Find cars for sale and for rent near you
-              </span>
-              <h2 className="text-white mt-4">Locate the Car That Fits You Best</h2>
-              <span className="text-white text-lg-medium">
-                Search and find your best car rental with easy way
-              </span>
-            </div>
-          </div>
-        </div>
+       
 
         {/* SEARCH */}
-        <section className="box-section box-search-advance-home10 background-body">
+        
+        <section className="box-section box-search-advance-home10 background-body mt-60  ">
           <div className="container">
             <div className="box-search-advance background-card wow fadeIn">
               <div className="box-top-search">

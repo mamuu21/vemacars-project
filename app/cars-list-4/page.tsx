@@ -59,54 +59,14 @@ export default function CarsList4() {
 
 			<Layout footerStyle={1}>
 				<div>
-					<div className="page-header-2 pt-30 background-body">
-						<div className="custom-container position-relative mx-auto">
-							<div className="bg-overlay rounded-12 overflow-hidden">
-								<img className="w-100 h-100 img-fluid img-banner" src="/assets/imgs/page-header/banner6.png" alt="Carento" />
-							</div>
-							<div className="container position-absolute z-1 top-50 start-50 pb-70 translate-middle text-center">
-								<span className="text-sm-bold bg-2 px-4 py-3 rounded-12">Find cars for sale and for rent near you</span>
-								<h2 className="text-white mt-4">Uncover Your Dream Ride</h2>
-								<span className="text-white text-lg-medium">Search and find your best car rental with easy way</span>
-							</div>
-							<div className="background-body position-absolute z-1 top-100 start-50 translate-middle px-3 py-2 rounded-12 border d-flex gap-3 d-none d-none d-md-flex">
-								<Link href="/" className="neutral-700 text-md-medium">Home</Link>
-								<span className="@@ds-prev-page">
-									<img src="/assets/imgs/template/icons/arrow-right.svg" alt="Carento" />
-								</span>
-								<Link href="#" className="neutral-1000 text-md-bold">@@prev-page</Link>
-								<span>
-									<img src="/assets/imgs/template/icons/arrow-right.svg" alt="Carento" />
-								</span>
-								<Link href="#" className="neutral-1000 text-md-bold text-nowrap">@@current-page</Link>
-							</div>
-						</div>
-					</div>
-					{/* search 1 */}
-					<section className="box-section box-search-advance-home10 background-body">
-						<div className="container">
-							<div className="box-search-advance background-card wow fadeIn">
-								<div className="box-top-search">
-									<div className="left-top-search">
-										<Link className="category-link text-sm-bold btn-click active" href="#">All cars</Link>
-										<Link className="category-link text-sm-bold btn-click" href="#">New cars</Link>
-										<Link className="category-link text-sm-bold btn-click" href="#">Used cars</Link>
-									</div>
-									<div className="right-top-search d-none d-md-flex">
-										<Link className="text-sm-medium need-some-help" href="/contact">Need help?</Link>
-									</div>
-								</div>
-								<HeroSearch />
-							</div>
-						</div>
-					</section>
+					
+					
 					{/* cars-listing-1 */}
 					<section className="section-box pt-50 background-body">
 						<div className="container">
 							<div className="row align-items-end">
 								<div className="col-md-9 mb-30 wow fadeInUp">
-									<h4 className="title-svg neutral-1000 mb-15">Our Vehicle Fleet</h4>
-									<p className="text-lg-medium text-bold neutral-500">Turning dreams into reality with versatile vehicles.</p>
+									<h4 className="title-svg neutral-1000 mb-15">My Reservations</h4>
 								</div>
 							</div>
 						</div>
@@ -146,89 +106,7 @@ export default function CarsList4() {
 									/>
 
 								</div>
-								<div className="content-left order-lg-first">
-									<div className="sidebar-left border-1 background-body">
-										<div className="box-filters-sidebar">
-											<div className="block-filter border-1">
-												<h6 className="text-lg-bold item-collapse neutral-1000">Show on map</h6>
-												<div className="box-collapse scrollFilter mb-15">
-													<div className="pt-0">
-														<div className="box-map-small">
-															<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5249.611419370571!2d2.3406913487788334!3d48.86191519358772!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e18a5f84801%3A0x6eb5daa624bdebd2!2sLes%20Halles%2C%2075001%20Pa%20ri%2C%20Ph%C3%A1p!5e0!3m2!1svi!2s!4v1711728202093!5m2!1svi!2s" width="100%" height={160} style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div className="sidebar-left border-1 background-body">
-										<div className="box-filters-sidebar">
-											<div className="block-filter border-1">
-												<h6 className="text-lg-bold item-collapse neutral-1000">Filter Price </h6>
-												<ByPrice filter={filter} handlePriceRangeChange={handlePriceRangeChange} />
-											</div>
-										</div>
-									</div>
-									<div className="sidebar-left border-1 background-body">
-										<div className="box-filters-sidebar">
-											<div className="block-filter border-1">
-												<h6 className="text-lg-bold item-collapse neutral-1000">Car type</h6>
-												<ByCarType
-													uniqueCarTypes={uniqueCarTypes}
-													filter={filter}
-													handleCheckboxChange={handleCheckboxChange}
-												/>
-											</div>
-										</div>
-									</div>
-									<div className="sidebar-left border-1 background-body">
-										<div className="box-filters-sidebar">
-											<div className="block-filter border-1">
-												<h6 className="text-lg-bold item-collapse neutral-1000">Amenities</h6>
-												<ByAmenities
-													uniqueAmenities={uniqueAmenities}
-													filter={filter}
-													handleCheckboxChange={handleCheckboxChange}
-												/>
-											</div>
-										</div>
-									</div>
-									<div className="sidebar-left border-1 background-body">
-										<div className="box-filters-sidebar">
-											<div className="block-filter border-1">
-												<h6 className="text-lg-bold item-collapse neutral-1000">Fuel Type</h6>
-												<ByFuel
-													uniqueFuelTypes={uniqueFuelTypes}
-													filter={filter}
-													handleCheckboxChange={handleCheckboxChange}
-												/>
-											</div>
-										</div>
-									</div>
-									<div className="sidebar-left border-1 background-body">
-										<div className="box-filters-sidebar">
-											<div className="block-filter border-1">
-												<h6 className="text-lg-bold item-collapse neutral-1000">Review Score </h6>
-												<ByRating
-													uniqueRatings={uniqueRatings}
-													filter={filter}
-													handleCheckboxChange={handleCheckboxChange}
-												/>
-											</div>
-										</div>
-									</div>
-									<div className="sidebar-left border-1 background-body">
-										<div className="box-filters-sidebar">
-											<div className="block-filter border-1">
-												<h6 className="text-lg-bold item-collapse neutral-1000">Booking Location</h6>
-												<ByLocation
-													uniqueLocations={uniqueLocations}
-													filter={filter}
-													handleCheckboxChange={handleCheckboxChange} />
-											</div>
-										</div>
-									</div>
-								</div>
+								
 							</div>
 						</div>
 						<div className="background-100 pt-55 pb-55">

@@ -23,17 +23,17 @@ export default function MobileMenu({ isMobileMenu, handleMobileMenu }: any) {
 								<nav>
 									<ul className="mobile-menu font-heading">
 										<li>	
-											<Link href="#">Home</Link>
+											<Link href="/">Home</Link>
 										</li>
 										<li>
-											<Link href="#">Car List</Link>
+											<Link href="booking-page">Cars List</Link>
 										</li>
 										<li>
-											<Link href="#">My bookings</Link>
+											<Link href="cars-list-4">Reservations</Link>
 										</li>
 		
-										<li><Link href="/contact">Contact</Link></li>
-										<li><Link href="/contact">Sign in</Link></li>
+										{/* <li><Link href="/contact">Contact</Link></li> */}
+										<li><Link href="/login">Sign in</Link></li>
 
 									</ul>
 								</nav>

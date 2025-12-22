@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import Marquee from 'react-fast-marquee'
 import ModalVideo from 'react-modal-video'
 import Slider from "react-slick"
+import ProgressBar from '@/app/booking-page/Progressbar'
 
 const SlickArrowLeft = ({ currentSlide, slideCount, ...props }: any) => (
 	<button
@@ -76,6 +77,8 @@ export default function CarsDetails3() {
 
 			<Layout footerStyle={1}>
 				<div>
+					<ProgressBar currentStepId={2} />
+					
 					<section className="box-section box-breadcrumb background-body">
 						<div className="container">
 							<ul className="breadcrumbs">
@@ -294,302 +297,11 @@ export default function CarsDetails3() {
 												</div>
 											</div>
 										</div>
-										<div className="group-collapse-expand">
-											<button className={isAccordion == 3 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseQuestion" aria-expanded="false" aria-controls="collapseQuestion" onClick={() => handleAccordion(3)}>
-												<h6>Question  Answers</h6>
-												<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
-													<path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-												</svg>
-											</button>
-											<div className={isAccordion == 3 ? "collapse" : "collapse show"} id="collapseQuestion">
-												<div className="card card-body">
-													<div className="list-questions">
-														<div className="item-question">
-															<div className="head-question">
-																<p className="text-md-bold neutral-1000">Is The High Roller suitable for all ages?</p>
-															</div>
-															<div className="content-question">
-																<p className="text-sm-medium neutral-800">Absolutely! The High Roller offers a family-friendly experience suitable for visitors of all ages. Children must be accompanied by an adult.</p>
-															</div>
-														</div>
-														<div className="item-question active">
-															<div className="head-question">
-																<p className="text-md-bold neutral-1000">Can I bring food or drinks aboard The High Roller?</p>
-															</div>
-															<div className="content-question">
-																<p className="text-sm-medium neutral-800">Outside food and beverages are not permitted on The High Roller. However, there are nearby dining options at The LINQ Promenade where you can enjoy a meal before or after your ride.</p>
-															</div>
-														</div>
-														<div className="item-question">
-															<div className="head-question">
-																<p className="text-md-bold neutral-1000">Is The High Roller wheelchair accessible?</p>
-															</div>
-															<div className="content-question">
-																<p className="text-sm-medium neutral-800">es, The High Roller cabins are wheelchair accessible, making it possible for everyone to enjoy the breathtaking views of Las Vegas.</p>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div className="group-collapse-expand">
-											<button className={isAccordion == 4 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseReviews" aria-expanded="false" aria-controls="collapseReviews" onClick={() => handleAccordion(4)}>
-												<h6>Rate  Reviews</h6>
-												<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
-													<path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-												</svg>
-											</button>
-											<div className={isAccordion == 4 ? "collapse" : "collapse show"} id="collapseReviews">
-												<div className="card card-body">
-													<div className="head-reviews">
-														<div className="review-left">
-															<div className="review-info-inner">
-																<h6 className="neutral-1000">4.95 / 5</h6>
-																<p className="text-sm-medium neutral-400">(672 reviews)</p>
-																<div className="review-rate"> <img src="/assets/imgs/page/tour-detail/star.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star.svg" alt="Travila" /></div>
-															</div>
-														</div>
-														<div className="review-right">
-															<div className="review-progress">
-																<div className="item-review-progress">
-																	<div className="text-rv-progress">
-																		<p className="text-sm-bold">Price</p>
-																	</div>
-																	<div className="bar-rv-progress">
-																		<div className="progress">
-																			<div className="progress-bar" style={{ width: '90%' }}> </div>
-																		</div>
-																	</div>
-																	<div className="text-avarage">
-																		<p>4.8/5</p>
-																	</div>
-																</div>
-																<div className="item-review-progress">
-																	<div className="text-rv-progress">
-																		<p className="text-sm-bold">Service</p>
-																	</div>
-																	<div className="bar-rv-progress">
-																		<div className="progress">
-																			<div className="progress-bar" style={{ width: '90%' }}> </div>
-																		</div>
-																	</div>
-																	<div className="text-avarage">
-																		<p>4.2/5</p>
-																	</div>
-																</div>
-																<div className="item-review-progress">
-																	<div className="text-rv-progress">
-																		<p className="text-sm-bold">Safety</p>
-																	</div>
-																	<div className="bar-rv-progress">
-																		<div className="progress">
-																			<div className="progress-bar" style={{ width: '95%' }}> </div>
-																		</div>
-																	</div>
-																	<div className="text-avarage">
-																		<p>4.9/5</p>
-																	</div>
-																</div>
-																<div className="item-review-progress">
-																	<div className="text-rv-progress">
-																		<p className="text-sm-bold">Entertainment</p>
-																	</div>
-																	<div className="bar-rv-progress">
-																		<div className="progress">
-																			<div className="progress-bar" style={{ width: '85%' }}> </div>
-																		</div>
-																	</div>
-																	<div className="text-avarage">
-																		<p>4.7/5</p>
-																	</div>
-																</div>
-																<div className="item-review-progress">
-																	<div className="text-rv-progress">
-																		<p className="text-sm-bold">Accessibility</p>
-																	</div>
-																	<div className="bar-rv-progress">
-																		<div className="progress">
-																			<div className="progress-bar" style={{ width: '100%' }}> </div>
-																		</div>
-																	</div>
-																	<div className="text-avarage">
-																		<p>5/5</p>
-																	</div>
-																</div>
-																<div className="item-review-progress">
-																	<div className="text-rv-progress">
-																		<p className="text-sm-bold">Support</p>
-																	</div>
-																	<div className="bar-rv-progress">
-																		<div className="progress">
-																			<div className="progress-bar" style={{ width: '100%' }} />
-																		</div>
-																	</div>
-																	<div className="text-avarage">
-																		<p>5/5</p>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div className="list-reviews">
-														<div className="item-review">
-															<div className="head-review">
-																<div className="author-review"> <img src="/assets/imgs/page/tour-detail/avatar.png" alt="Travila" />
-																	<div className="author-info">
-																		<p className="text-lg-bold">Sarah Johnson</p>
-																		<p className="text-sm-medium neutral-500">December 4, 2024 at 3:12 pm</p>
-																	</div>
-																</div>
-																<div className="rate-review"> <img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /></div>
-															</div>
-															<div className="content-review">
-																<p className="text-sm-medium neutral-800">The views from The High Roller were absolutely stunning! It's a fantastic way to see the Strip and the surrounding area. The cabins are spacious and comfortable, and the audio commentary adds an extra layer of enjoyment. Highly recommend!</p>
-															</div>
-														</div>
-														<div className="item-review">
-															<div className="head-review">
-																<div className="author-review"> <img src="/assets/imgs/page/tour-detail/avatar.png" alt="Travila" />
-																	<div className="author-info">
-																		<p className="text-lg-bold">Sarah Johnson</p>
-																		<p className="text-sm-medium neutral-500">December 4, 2024 at 3:12 pm</p>
-																	</div>
-																</div>
-																<div className="rate-review"> <img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /></div>
-															</div>
-															<div className="content-review">
-																<p className="text-sm-medium neutral-800">The views from The High Roller were absolutely stunning! It's a fantastic way to see the Strip and the surrounding area. The cabins are spacious and comfortable, and the audio commentary adds an extra layer of enjoyment. Highly recommend!</p>
-															</div>
-														</div>
-														<div className="item-review">
-															<div className="head-review">
-																<div className="author-review"> <img src="/assets/imgs/page/tour-detail/avatar.png" alt="Travila" />
-																	<div className="author-info">
-																		<p className="text-lg-bold">Sarah Johnson</p>
-																		<p className="text-sm-medium neutral-500">December 4, 2024 at 3:12 pm</p>
-																	</div>
-																</div>
-																<div className="rate-review"> <img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /></div>
-															</div>
-															<div className="content-review">
-																<p className="text-sm-medium neutral-800">The views from The High Roller were absolutely stunning! It's a fantastic way to see the Strip and the surrounding area. The cabins are spacious and comfortable, and the audio commentary adds an extra layer of enjoyment. Highly recommend!</p>
-															</div>
-														</div>
-													</div>
-													<nav aria-label="Page navigation example">
-														<ul className="pagination">
-															<li className="page-item"><Link className="page-link" href="#" aria-label="Previous"><span aria-hidden="true">
-																<svg width={12} height={12} viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-																	<path d="M6.00016 1.33325L1.3335 5.99992M1.3335 5.99992L6.00016 10.6666M1.3335 5.99992H10.6668" strokeLinecap="round" strokeLinejoin="round" />
-																</svg></span></Link></li>
-															<li className="page-item"><Link className="page-link" href="#">1</Link></li>
-															<li className="page-item"><Link className="page-link active" href="#">2</Link></li>
-															<li className="page-item"><Link className="page-link" href="#">3</Link></li>
-															<li className="page-item"><Link className="page-link" href="#">4</Link></li>
-															<li className="page-item"><Link className="page-link" href="#">5</Link></li>
-															<li className="page-item"><Link className="page-link" href="#">...</Link></li>
-															<li className="page-item"><Link className="page-link" href="#" aria-label="Next"><span aria-hidden="true">
-																<svg width={12} height={12} viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-																	<path d="M5.99967 10.6666L10.6663 5.99992L5.99968 1.33325M10.6663 5.99992L1.33301 5.99992" strokeLinecap="round" strokeLinejoin="round" />
-																</svg></span></Link></li>
-														</ul>
-													</nav>
-												</div>
-											</div>
-										</div>
-										<div className="group-collapse-expand">
-											<button className={isAccordion == 5 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseAddReview" aria-expanded="false" aria-controls="collapseAddReview" onClick={() => handleAccordion(5)}>
-												<h6>Add a review</h6>
-												<svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
-													<path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-												</svg>
-											</button>
-											<div className={isAccordion == 5 ? "collapse" : "collapse show"} id="collapseAddReview">
-												<div className="card card-body">
-													<div className="box-type-reviews">
-														<div className="row">
-															<div className="col-lg-4">
-																<div className="box-type-review">
-																	<p className="text-sm-bold text-type-rv">Price</p>
-																	<p className="rate-type-review"> <img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /></p>
-																</div>
-																<div className="box-type-review">
-																	<p className="text-sm-bold text-type-rv">Service</p>
-																	<p className="rate-type-review"> <img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /></p>
-																</div>
-															</div>
-															<div className="col-lg-4">
-																<div className="box-type-review">
-																	<p className="text-sm-bold text-type-rv">Safety</p>
-																	<p className="rate-type-review"> <img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /></p>
-																</div>
-																<div className="box-type-review">
-																	<p className="text-sm-bold text-type-rv">Entertainment</p>
-																	<p className="rate-type-review"> <img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /></p>
-																</div>
-															</div>
-															<div className="col-lg-4">
-																<div className="box-type-review">
-																	<p className="text-sm-bold text-type-rv">Accessibility</p>
-																	<p className="rate-type-review"> <img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /></p>
-																</div>
-																<div className="box-type-review">
-																	<p className="text-sm-bold text-type-rv">Support</p>
-																	<p className="rate-type-review"> <img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /><img src="/assets/imgs/page/tour-detail/star-big.svg" alt="Travila" /></p>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div className="box-form-reviews">
-														<h6 className="text-md-bold neutral-1000 mb-15">Leave feedback</h6>
-														<div className="row">
-															<div className="col-md-6">
-																<div className="form-group">
-																	<input className="form-control" type="text" placeholder="Your name" />
-																</div>
-															</div>
-															<div className="col-md-6">
-																<div className="form-group">
-																	<input className="form-control" type="text" placeholder="Email address" />
-																</div>
-															</div>
-															<div className="col-md-12">
-																<div className="form-group">
-																	<textarea className="form-control" placeholder="Your comment" defaultValue={""} />
-																</div>
-															</div>
-															<div className="col-md-12">
-																<button className="btn btn-black-lg-square">Submit review
-																	<svg width={16} height={16} viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-																		<path d="M8 15L15 8L8 1M15 8L1 8" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-																	</svg>
-																</button >
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
+										
 									</div>
 								</div>
 								<div className="col-lg-4">
-									<div className="sidebar-banner">
-										<div className="p-4 background-body border rounded-3">
-											<p className="text-xl-bold neutral-1000 mb-4">Get Started</p>
-											<Link href="#" className="btn btn-primary w-100 rounded-3 py-3 mb-3">
-												Schedule Test Drive
-												<svg width={17} height={16} viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M8.5 15L15.5 8L8.5 1M15.5 8L1.5 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-												</svg>
-											</Link>
-											<Link href="#" className="btn btn-book bg-2">
-												Make An Offer Price
-												<svg width={17} height={16} viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M8.5 15L15.5 8L8.5 1M15.5 8L1.5 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-												</svg>
-											</Link>
-										</div>
-									</div>
+									
 									<div className="booking-form">
 										<div className="head-booking-form">
 											<p className="text-xl-bold neutral-1000">Rent This Vehicle</p>
@@ -702,34 +414,7 @@ export default function CarsDetails3() {
 											</div>
 										</div>
 									</div>
-									<div className="sidebar-left border-1 background-card">
-										<h6 className="text-xl-bold neutral-1000">Listed by</h6>
-										<div className="box-sidebar-content">
-											<div className="box-agent-support border-bottom pb-3 mb-3">
-												<div className="card-author">
-													<div className="me-2"><img src="/assets/imgs/template/icons/car-1.png" alt="Carento" /></div>
-													<div className="card-author-info">
-														<p className="text-lg-bold neutral-1000">Emily Rose</p>
-														<p className="text-sm-medium neutral-500">Las Vegas, USA</p>
-													</div>
-												</div>
-											</div>
-											<div className="box-info-contact">
-												<p className="text-md-medium mobile-phone neutral-1000"><span className="text-md-bold">Mobile:</span> 1-222-333-4444</p>
-												<p className="text-md-medium email neutral-1000"><span className="text-md-bold">Email:</span> emily-rose@gmail.com</p>
-												<p className="text-md-medium whatsapp neutral-1000"><span className="text-md-bold">WhatsApp:</span> 1-222-333-4444</p>
-												<p className="text-md-medium fax neutral-1000"><span className="text-md-bold">Fax:</span> 1-222-333-4444</p>
-											</div>
-											<div className="box-link-bottom">
-												<Link className="btn btn-primary py-3 w-100 rounded-3" href="#">
-													All items by this dealer
-													<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-														<path d="M8 15L15 8L8 1M15 8L1 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-													</svg>
-												</Link>
-											</div>
-										</div>
-									</div>
+									
 								</div>
 							</div>
 						</div>
