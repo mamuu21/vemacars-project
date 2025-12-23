@@ -1,6 +1,10 @@
 export type Car = {
-  id?: number
+  id: number
   name: string
-  image?: string
-  price?: number
+  year: number
+  fuelType: string
+  seats: number
+  transmission: string
+  images: string[]
+  [key: string]: any
 }
