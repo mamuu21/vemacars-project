@@ -10,6 +10,14 @@ import Link from "next/link"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { swiperGroup3 } from '@/util/swiperOptions'
 import Marquee from 'react-fast-marquee'
+import {Car} from "./type"
+
+
+
+type StepChooseCarProps = {
+  onNext: () => void
+  setSelectedCar: (car: Car) => void
+}
 
 
 const carsData = rawCarsData.map(car => ({
@@ -17,7 +25,9 @@ const carsData = rawCarsData.map(car => ({
   rating: parseFloat(car.rating as string)
 }))
 
-export default function StepChooseCar({ onNext, setSelectedCar }) {
+export default function StepChooseCar(props: StepChooseCarProps) {
+
+  const { onNext, setSelectedCar } = props
   const {
     sortCriteria,
     itemsPerPage,
@@ -99,7 +109,7 @@ export default function StepChooseCar({ onNext, setSelectedCar }) {
                       <SwiperSlide key={car.id} className="pt-2">
                         <CarCard1
                           car={car}
-                          onBook={(selectedCar) => {
+                          onBook={(selectedCar: Car) => {
                             setSelectedCar(selectedCar)
                             onNext()
                           }}

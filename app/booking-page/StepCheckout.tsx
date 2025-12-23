@@ -1,6 +1,12 @@
 'use client'
 
-export default function StepCheckout({ onBack }) {
+type StepCheckoutProps = {
+  onBack: () => void
+}
+
+export default function StepCheckout(props: StepCheckoutProps) {
+  const { onBack } = props
+
 
     return (
         <section className="box-section box-contact-form background-body pt-0">

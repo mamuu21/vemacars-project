@@ -5,14 +5,7 @@ import { useEffect, useState } from "react"
 import Marquee from 'react-fast-marquee'
 import ModalVideo from 'react-modal-video'
 import Slider from "react-slick"
-
-
-type Car = {
-  id?: number
-  name: string
-  image?: string
-  price?: number
-}
+import {Car} from "./type"
 
 type StepCarDetailsProps  = {
     car: Car | null
@@ -45,11 +38,9 @@ const SlickArrowRight = ({ currentSlide, slideCount, ...props }: any) => (
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M7.99992 12.6666L12.6666 7.99992L7.99992 3.33325M12.6666 7.99992L3.33325 7.99992" stroke="" strokeLinecap="round" strokeLinejoin="round"> </path></svg>
     </button>
 )
-export default function StepCarDetails({
-    car,
-    onNext,
-    onBack
-}: StepCarDetailsProps) {
+export default function StepCarDetails(props: StepCarDetailsProps) {
+
+    const { car, onNext, onBack } = props
     const [isOpen, setOpen] = useState(false)
     const [nav1, setNav1] = useState(null)
     const [nav2, setNav2] = useState(null)

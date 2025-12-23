@@ -6,11 +6,13 @@ import ProgressBar from '@/app/booking-page/Progressbar'
 import StepChooseCar from '@/app/booking-page/StepChooseCar'
 import StepCarDetails from '@/app/booking-page/StepCarDetails'
 import StepCheckout from '@/app/booking-page/StepCheckout'
+import { Car } from '@/app/booking-page/type'
+
 
 
 export default function BookingPage() {
   const [step, setStep] = useState(1)
-  const [selectedCar, setSelectedCar] = useState(null)
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null)
 
   return (
     <Layout footerStyle={1}>
@@ -22,20 +24,20 @@ export default function BookingPage() {
           setSelectedCar={setSelectedCar}
         />
       )}
-      {step === 2 && (
+
+      {step === 2 && selectedCar && (
         <StepCarDetails
-            car={selectedCar}
-            onNext={() => setStep(3)}
-            onBack={() => setStep(1)}
+          car={selectedCar}
+          onNext={() => setStep(3)}
+          onBack={() => setStep(1)}
         />
-        )}
+      )}
 
-        {step === 3 && (
-            <StepCheckout
-                onBack={() => setStep(2)}
-            />
-        )}
-
+      {step === 3 && (
+        <StepCheckout
+          onBack={() => setStep(2)}
+        />
+      )}
     </Layout>
   )
 }
