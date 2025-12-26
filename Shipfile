@@ -1,7 +1,6 @@
 script:
   npm install
-  npm install -g serve
   npm run build
-  npm run export
   
+
 run: serve out -p 8080
