@@ -3,4 +3,4 @@ script:
   npm run build
   
 
-run: serve out -p 8080
+run: npm start
