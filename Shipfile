@@ -3,4 +3,4 @@ script:
   npm run build
   
 
-run: npm start
+run: npx next start -p 8080
