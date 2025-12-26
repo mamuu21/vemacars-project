@@ -1,3 +1,5 @@
-script: npm install
-build: npm run build
-run: npm start
+script:
+  npm install
+  npm run build
+  npm run export
+run: serve out -p 8080
