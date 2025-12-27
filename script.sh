@@ -1,5 +1,5 @@
 #!/bin/sh
-# set -e
+set -e
 
-# npm install
-# npm run build
+npm install
+npm run build
