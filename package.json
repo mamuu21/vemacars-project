@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start -p 8080",
+    "build": "next build && next export",
+    "start": "serve out -p 8080",
     "lint": "next lint"
   },
   "dependencies": {
@@ -30,7 +30,7 @@
     "@types/react-slick": "^0.23.13",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.35",
+    "serve": "^14.2.5",
     "typescript": "^5"
   }
-  
 }
