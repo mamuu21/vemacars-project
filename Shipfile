@@ -2,4 +2,4 @@ script:
   npm install
   npm run build
 
-run: npm start -- --host 0.0.0.0 --port 4000
+run: npm start -- -H 0.0.0.0 -p 4000
