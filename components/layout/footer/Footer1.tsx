@@ -29,14 +29,13 @@ export default function Footer1() {
 									<img className="dark-mode" alt="Carento" src="/assets/imgs/template/logo-w.svg" />
 								</Link>
 								<div className="box-info-contact mt-0">
-									<p className="text-md neutral-400 icon-address">2356 Oakwood Drive, Suite 18, San Francisco,
-										California 94111, US</p>
+									<p className="text-md neutral-400 icon-address">Forodhani Street, Stone Town, Zanzibar, Tanzania.</p>
 									<p className="text-md neutral-400 icon-worktime">Hours: 8:00 - 17:00, Mon - Sat</p>
-									<p className="text-md neutral-400 icon-email">support@carento.com</p>
+									<p className="text-md neutral-400 icon-email">support@vemacars.com</p>
 								</div>
 								<div className="box-need-help">
 									<p className="need-help text-md-medium mb-5">Need help? Call us</p>
-									<br /><Link className="heading-6 phone-support" href="/tel:+1 222-555-33-99">+1 222-555-33-99</Link>
+									<br /><Link className="heading-6 phone-support" href="/tel:+1 222-555-33-99"> +255 715 000 000</Link>
 								</div>
 							</div>
 						</div>
@@ -57,7 +56,7 @@ export default function Footer1() {
 					<div className="footer-bottom mt-50">
 						<div className="row align-items-center justify-content-center">
 							<div className="col-md-6 text-md-start text-center mb-20">
-								<p className="text-sm color-white">© {new Date().getFullYear()} VemaCars Inc. All rights reserved.</p>
+								<p className="text-sm color-white">© {new Date().getFullYear()} Vema Cars & Tours Inc. All rights reserved.</p>
 							</div>
 							<div className="col-md-6 text-md-end text-center mb-20">
 								<div className="d-flex align-items-center justify-content-center justify-content-md-end">

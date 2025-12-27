@@ -172,7 +172,7 @@ export default function ProgressBar({ steps, currentStepId }: ProgressBarProps) 
                           zIndex: 1,
                         }}
                       >
-                        <div className={`h-100 ${isCompleted ? 'bg-dark' : 'bg-gray-300'}`} />
+                        {/* <div className={`h-100 ${isCompleted ? 'bg-dark' : 'bg-gray-300'}`} /> */}
                       </div>
                     )}
                   </div>

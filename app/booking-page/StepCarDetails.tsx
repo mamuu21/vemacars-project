@@ -26,6 +26,7 @@ const SlickArrowLeft = ({ currentSlide, slideCount, ...props }: any) => (
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M7.99992 3.33325L3.33325 7.99992M3.33325 7.99992L7.99992 12.6666M3.33325 7.99992H12.6666" stroke="" strokeLinecap="round" strokeLinejoin="round"></path></svg>
     </button>
 )
+
 const SlickArrowRight = ({ currentSlide, slideCount, ...props }: any) => (
     <button
         {...props}
@@ -38,6 +39,7 @@ const SlickArrowRight = ({ currentSlide, slideCount, ...props }: any) => (
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M7.99992 12.6666L12.6666 7.99992L7.99992 3.33325M12.6666 7.99992L3.33325 7.99992" stroke="" strokeLinecap="round" strokeLinejoin="round"> </path></svg>
     </button>
 )
+
 export default function StepCarDetails({
     car,
     onNext,
