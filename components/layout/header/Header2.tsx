@@ -63,8 +63,8 @@ export default function Header2({ scroll, isMobileMenu, handleMobileMenu, handle
 						<div className="header-left">
 							<div className="header-logo">
 								<Link className="d-flex" href="/">
-									<img className="light-mode" alt="Carento" src="/assets/imgs/template/logo-d.svg" />
-									<img className="dark-mode" alt="Carento" src="/assets/imgs/template/logo-w.svg" />
+									<img className="light-mode" alt="VemaCars" src="/assets/imgs/template/Vema Cars Logo/Vema Cars Logo/Transparents/Frame_22-removebg-preview.png" />
+									<img className="dark-mode" alt="VemaCars" src="/assets/imgs/template/Vema Cars Logo/Vema Cars Logo/Transparents/Frame_20-removebg-preview.png" />
 								</Link>
 							</div>
 							<div className="header-nav">
