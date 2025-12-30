@@ -26,7 +26,7 @@ export default function CarCard1({ car, onBook }: any) {
           <div className="card-button">
             <button
               className="btn btn-primary"
-              onClick={() => onBook(car)}
+              onClick={() => onBook(car)}         
             >
               Select Now
             </button>

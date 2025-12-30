@@ -37,15 +37,15 @@ export default function Cta3() {
 								<div className="box-image-payment-2">
 									<div className="row align-items-center">
 										<div className="col-sm-4 mb-30">
-											<img className="bdrd8 w-100 " data-wow-delay="0.1s" src="/assets/imgs/cta/cta-3/img-1.png" alt="Carento" />
+											<img className="bdrd8 w-100 " data-wow-delay="0.1s" src="/assets/imgs/znz/Stone-Town-5.jpg" alt="VemaCars" />
 										</div>
 										<div className="col-sm-4 mb-30">
-											<img className="bdrd8 w-100 mb-15 " data-wow-delay="0.2s" src="/assets/imgs/cta/cta-3/img-2.png" alt="Carento" />
-											<img className="bdrd8 w-100 " data-wow-delay="0.3s" src="/assets/imgs/cta/cta-3/img-3.png" alt="Carento" />
+											<img className="bdrd8 w-100 mb-15 " data-wow-delay="0.2s" src="/assets/imgs/znz/Stone-Town-Beach_Carousel3.jpg" alt="VemaCars" />
+											<img className="bdrd8 w-100 " data-wow-delay="0.3s" src="/assets/imgs/znz/stone-town-farmers-market-1.png" alt="VemaCars" />
 										</div>
 										<div className="col-sm-4 mb-30">
-											<img className="bdrd8 w-100 mb-15" data-wow-delay="0.4s" src="/assets/imgs/cta/cta-3/img-4.png" alt="Carento" />
-											<img className="bdrd8 w-100" data-wow-delay="0.5s" src="/assets/imgs/cta/cta-3/img-5.png" alt="Carento" />
+											<img className="bdrd8 w-100 mb-15" data-wow-delay="0.4s" src="/assets/imgs/znz/Stone-Town-Zanzibar-Island-Tanzania.webp" alt="VemaCars" />
+											<img className="bdrd8 w-100" data-wow-delay="0.5s" src="/assets/imgs/znz/zanzibar-beach-view (1).jpg" alt="Vemacars" />
 										</div>
 									</div>
 								</div>

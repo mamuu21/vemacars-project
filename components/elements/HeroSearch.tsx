@@ -11,16 +11,16 @@ export default function HeroSearch() {
 				<div className="item-search">
 					<label className="text-sm-bold neutral-500">Pick Up Location</label>
 					<Dropdown className="dropdown">
-						<Dropdown.Toggle as="div" className="btn btn-secondary dropdown-toggle btn-dropdown-search location-search"  aria-expanded="false">New York, USA</Dropdown.Toggle>
+						<Dropdown.Toggle as="div" className="btn btn-secondary dropdown-toggle btn-dropdown-search location-search"  aria-expanded="false">Fumba, Zanzibar</Dropdown.Toggle>
 						<Dropdown.Menu as="ul" className="dropdown-menu">
 							<li>
-								<Link className="dropdown-item" href="#">Paris, France</Link>
+								<Link className="dropdown-item" href="#">Chaani, Zanzibar</Link>
 							</li>
 							<li>
-								<Link className="dropdown-item" href="#">Tokyo, Japan</Link>
+								<Link className="dropdown-item" href="#">Mbweni, Zanzibar</Link>
 							</li>
 							<li>
-								<Link className="dropdown-item" href="#">New York City, USA</Link>
+								<Link className="dropdown-item" href="#">Changani, Zanzibar</Link>
 							</li>
 						</Dropdown.Menu>
 					</Dropdown>
@@ -28,16 +28,16 @@ export default function HeroSearch() {
 				<div className="item-search item-search-2">
 					<label className="text-sm-bold neutral-500">Drop Off Location</label>
 					<Dropdown className="dropdown">
-						<Dropdown.Toggle as="div" className="btn btn-secondary dropdown-toggle btn-dropdown-search location-search" >Delaware, USA</Dropdown.Toggle>
+						<Dropdown.Toggle as="div" className="btn btn-secondary dropdown-toggle btn-dropdown-search location-search" >Stone Town, Zanzibar</Dropdown.Toggle>
 						<Dropdown.Menu as="ul" className="dropdown-menu">
 							<li>
-								<Link className="dropdown-item" href="#">Paris, France</Link>
+								<Link className="dropdown-item" href="#">Forodhani Street, Zanzibar</Link>
 							</li>
 							<li>
-								<Link className="dropdown-item" href="#">Tokyo, Japan</Link>
+								<Link className="dropdown-item" href="#">Nungwi, Zanzibar</Link>
 							</li>
 							<li>
-								<Link className="dropdown-item" href="#">New York City, USA</Link>
+								<Link className="dropdown-item" href="#">Stone Town, Zanzibar</Link>
 							</li>
 						</Dropdown.Menu>
 					</Dropdown>

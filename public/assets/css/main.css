@@ -1,5 +1,5 @@
 /***
- Theme Name: Carento
+ Theme Name: VemaCars
  Description: Car rental HTML template
  Version: 1.0
  License: GNU General Public License v2 or later
@@ -73,21 +73,21 @@ TABLE CONTENT
 	--bs-neutral-800: #454545;
 	--bs-neutral-900: #313131;
 	--bs-neutral-1000: #000000;
-	--bs-button-bg: #70f46d;
+	--bs-button-bg:  #9c9ba7;
 	--bs-button-bg-2: #f2f4f6;
 	--bs-button-text: #101010;
 	--bs-button-text-2: #000000;
-	--bs-brand-2: #70f46d;
-	--bs-brand-2-dark: #70f46d;
-	--bs-brand-2-darken: #5edd5b;
+	--bs-brand-2: #9c9ba7;
+	--bs-brand-2-dark: #9c9ba7;
+	--bs-brand-2-darken: #9c9ba7;
 	--bs-brand-2-light: #2d4a2c;
-	--bs-link-hover-color: #235922;
+	--bs-link-hover-color: #9c9ba7;
 	--bs-brand-1: #8acfff;
 	--bs-warning: #ffc700;
-	--bs-success: #34d674;
+	--bs-success: #9c9ba7;
 	--bs-danger: #ff2e00;
 	--bs-color-grey: #afafaf;
-	--bs-color-2: #c5ff41;
+	--bs-color-2: #9c9ba7;
 	--bs-color-grey-2: #f0f0f0;
 	--bs-neutral-950: #1e1e1e;
 	--bs-primary-rgb: 112, 244, 109;
@@ -8731,7 +8731,7 @@ a.icon-socials:hover svg path {
 
 
 .box-cta-3 .list-ticks-green li {
-	background-image: url(../imgs/template/icons/tick-list-w.svg);
+	background-image: url(../imgs/template/icons/tick-list-3.jpg);
 }
 
 .box-cta-3 .imgae {

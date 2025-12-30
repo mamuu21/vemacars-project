@@ -106,11 +106,11 @@ export default function Header2({ scroll, isMobileMenu, handleMobileMenu, handle
 										</svg>
 										Sign in
 									</Link>
-									<Link className="btn btn-signin background-brand-2 text-dark" href="#">Add Listing</Link>
+									{/* <Link className="btn btn-signin background-brand-2 text-dark" href="#">Add Listing</Link> */}
 								</div>
-								<div className="burger-icon-2 burger-icon-white" onClick={handleOffcanvas}>
+								{/* <div className="burger-icon-2 burger-icon-white" onClick={handleOffcanvas}>
 									<img src="/assets/imgs/template/icons/menu.svg" alt="Carento" />
-								</div>
+								</div> */}
 								<div className="burger-icon burger-icon-white" onClick={handleMobileMenu}>
 									<span className="burger-icon-top" />
 									<span className="burger-icon-mid"> </span>

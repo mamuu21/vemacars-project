@@ -25,8 +25,8 @@ export default function Footer1() {
 						<div className="col-md-3 col-sm-12 footer-1">
 							<div className="mt-20 mb-20">
 								<Link className="d-flex" href="/">
-									<img className="light-mode" alt="Carento" src="/assets/imgs/template/logo-w.svg" />
-									<img className="dark-mode" alt="Carento" src="/assets/imgs/template/logo-w.svg" />
+									{/* <img className="light-mode" alt="VemaCars" src="/assets/imgs/template/Vema Cars Logo/Vema Cars Logo/Transparents/Frame_22-removebg-preview.png" /> */}
+									<img alt="VemaCars" src="/assets/imgs/template/Vema Cars Logo/Vema Cars Logo/Transparents/Frame_20-removebg-preview.png" />
 								</Link>
 								<div className="box-info-contact mt-0">
 									<p className="text-md neutral-400 icon-address">Forodhani Street, Stone Town, Zanzibar, Tanzania.</p>
