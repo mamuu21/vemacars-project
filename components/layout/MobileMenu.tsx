@@ -14,7 +14,9 @@ export default function MobileMenu({ isMobileMenu, handleMobileMenu }: any) {
 			<div className={`mobile-header-active mobile-header-wrapper-style perfect-scrollbar button-bg-2 ${isMobileMenu ? 'sidebar-visible' : ''}`}>
 				<PerfectScrollbar className="mobile-header-wrapper-inner">
 					<div className="mobile-header-logo">
-						<Link className="d-flex" href="/"><img className="light-mode" alt="Carento" src="/assets/imgs/template/logo-d.svg" /><img className="dark-mode" alt="Carento" src="/assets/imgs/template/logo-w.svg" /></Link>
+						<Link className="d-flex" href="/">
+							<img className="light-mode" alt="VemaCars" src="/assets/imgs/template/Vema Cars Logo/Vema Cars Logo/Transparents/Frame_22-removebg-preview.png" />
+							<img className="dark-mode" alt="VemaCars" src="/assets/imgs/template/Vema Cars Logo/Vema Cars Logo/Transparents/Frame_20-removebg-preview.png"/></Link>
 						<div className="burger-icon burger-icon-white" onClick={handleMobileMenu} />
 					</div>
 					<div className="mobile-header-content-area">

@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Layout from '@/components/layout/Layout'
 import ProgressBar from '@/app/booking-page/Progressbar'
 import StepChooseCar from '@/app/booking-page/StepChooseCar'
 import StepCarDetails from '@/app/booking-page/StepCarDetails'
 import StepCheckout from '@/app/booking-page/StepCheckout'
+import Home from '@/app/page'
 import { Car } from '@/app/booking-page/type'
 
 
@@ -13,6 +15,8 @@ import { Car } from '@/app/booking-page/type'
 export default function BookingPage() {
   const [step, setStep] = useState(1)
   const [selectedCar, setSelectedCar] = useState<Car | null>(null)
+  const router = useRouter()
+
 
   return (
     <Layout footerStyle={1}>
@@ -20,6 +24,7 @@ export default function BookingPage() {
 
       {step === 1 && (
         <StepChooseCar
+          onBack={() => router.push('/')}
           onNext={() => setStep(2)}
           setSelectedCar={setSelectedCar}
         />

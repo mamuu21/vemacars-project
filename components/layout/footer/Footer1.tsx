@@ -5,7 +5,7 @@ export default function Footer1() {
 		<>
 			<footer className="footer">
 				<div className="container">
-					<div className="footer-top">
+					{/* <div className="footer-top">
 						<div className="row align-items-center">
 							<div className="col-lg-5 col-md-6 text-center text-md-start">
 								<h5 className="color-white wow fadeInDown">Subscribe to see secret deals prices drop the moment you
@@ -20,7 +20,7 @@ export default function Footer1() {
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> */}
 					<div className="row">
 						<div className="col-md-3 col-sm-12 footer-1">
 							<div className="mt-20 mb-20">
@@ -41,16 +41,18 @@ export default function Footer1() {
 						</div>
 						
 						
-						<div className="col-md-3 col-xs-6 footer-5">
-							<h6 className="text-linear-3">Support</h6>
-							<ul className="menu-footer">
-								<li><Link href="#">Forum support</Link></li>
-								<li><Link href="#">Help Center</Link></li>
-								<li><Link href="#">Live chat</Link></li>
-								<li><Link href="#">How it works</Link></li>
-								<li><Link href="#">Security</Link></li>
-								<li><Link href="#">Refund Policy</Link></li>
-							</ul>
+						<div className="col-md-3 col-xs-6 footer-5 ">
+							<div className="mt-50 mb-20">
+								<h6 className="text-linear-3">Support</h6>
+								<ul className="menu-footer">
+									<li><Link href="#">Forum support</Link></li>
+									<li><Link href="#">Help Center</Link></li>
+									<li><Link href="#">Live chat</Link></li>
+									<li><Link href="#">How it works</Link></li>
+									<li><Link href="#">Security</Link></li>
+									<li><Link href="#">Refund Policy</Link></li>
+								</ul>
+							</div>
 						</div>
 					</div>
 					<div className="footer-bottom mt-50">

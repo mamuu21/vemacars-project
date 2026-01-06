@@ -47,12 +47,12 @@ export default function StepCheckout(props: StepCheckoutProps) {
                     </button>
 
                     {/* TITLE */}
-                    <h4
+                    <h6
                         className="neutral-1000 m-0"
                         style={{ lineHeight: 1.1 }}
                     >
                         Complete Booking
-                    </h4>
+                    </h6>
 
                 </div>
 

@@ -14,25 +14,37 @@ export default function Hero3() {
 								<SwiperSlide>
 									<div className="item-banner-slide banner-1">
 										<div className="container text-center position-relative z-1">
-											<span className="btn background-brand-2 px-3 py-3 rounded-12 text-sm-bold text-dark">+3600 cars for you</span>
-											<h1 className="mt-20 mb-20 color-white">Discover your next car today.</h1>
-											<h6 className="color-white heading-6-medium">
-												Explore our wide selection and experience a smooth buying process <br className="d-none d-md-block" />
-												with personalized support at every stage.
-											</h6>
-											<div className="d-flex align-items-center justify-content-center pt-60 flex-wrap">
-												<span className="text-sm-bold text-white"> Popular Searches: </span>
-												&nbsp;
-												<Link href="#" className="text-white text-decoration-underline"> Economy, </Link>
-												&nbsp;
-												<Link href="#" className="text-white text-decoration-underline"> Standard, </Link>
-												&nbsp;
-												<Link href="#" className="text-white text-decoration-underline"> Luxury, </Link>
-												&nbsp;
-												<Link href="#" className="text-white text-decoration-underline"> SUV, </Link>
-												&nbsp;
-												<Link href="#" className="text-white text-decoration-underline"> Convertible, </Link>
+											<Link className="btn btn-primary mt-5 mb-4 " href="/booking-page">
+												Go to Booking
+												<svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M8 15L15 8L8 1M15 8L1 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+												</svg>
+											</Link>
+
+											<h4 className="mt-20 mb-20 color-white">Finally, Professional Car & Scooter rent possible with Vema Cars</h4>
+											
+											<div className="box-cta-3">
+												<ul className="list-ticks-green text-center">
+													<li>
+													<h6 className="color-white heading-6-medium">
+														Straight & simple booking process
+													</h6>
+													</li>
+													<li>
+													<h6 className="color-white heading-6-medium">
+														Quick customer support
+													</h6>
+													</li>
+													<li>
+													<h6 className="color-white heading-6-medium">
+														Well maintained vehicles
+													</h6>
+													</li>
+												</ul>
 											</div>
+
+
+											
 										</div>
 									</div>
 								</SwiperSlide>
@@ -45,19 +57,7 @@ export default function Hero3() {
 												Explore our wide selection and experience a smooth buying process <br className="d-none d-md-block" />
 												with personalized support at every stage.
 											</h6>
-											<div className="d-flex align-items-center justify-content-center pt-60  flex-wrap">
-												<span className="text-sm-bold text-white"> Popular Searches: </span>
-												&nbsp;
-												<Link href="#" className="text-white text-decoration-underline"> Economy, </Link>
-												&nbsp;
-												<Link href="#" className="text-white text-decoration-underline"> Standard, </Link>
-												&nbsp;
-												<Link href="#" className="text-white text-decoration-underline"> Luxury, </Link>
-												&nbsp;
-												<Link href="#" className="text-white text-decoration-underline"> SUV, </Link>
-												&nbsp;
-												<Link href="#" className="text-white text-decoration-underline"> Convertible, </Link>
-											</div>
+											
 										</div>
 									</div>
 								</SwiperSlide>

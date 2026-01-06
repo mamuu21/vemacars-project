@@ -9,7 +9,7 @@ export default function App() {
 				<div className="container position-relative z-1">
 					<div className="row align-items-center py-5">
 						<div className="col-lg-5">
-							<h4 className=" wow fadeInDown">VemaCars App is Available</h4>
+							<h4 className=" wow fadeInDown">VemaCars App is coming soon</h4>
 							<p className="text-md-medium pb-3 wow fadeInUp">Manage all your car rentals on the go with the
 								VemaCars app</p>
 							<div className="download-apps mt-0">
@@ -18,7 +18,7 @@ export default function App() {
 							</div>
 						</div>
 						<div className="col-lg-7">
-							<div className="box-app-img wow fadeIn"><img src="/assets/imgs/app/app-1/truck.png" alt="Carento" />
+							<div className="box-app-img wow fadeIn"><img src="/assets/imgs/app/app-1/magari.png" alt="Carento" />
 							</div>
 						</div>
 					</div>

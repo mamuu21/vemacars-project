@@ -12,8 +12,8 @@ type ProgressBarProps = {
 
 export default function ProgressBar({ steps, currentStepId }: ProgressBarProps) {
   const defaultSteps: Step[] = [
-    { id: 1, label: 'Choose a car' },
-    { id: 2, label: 'Choose extras' },
+    { id: 1, label: 'Choose a vehicle' },
+    { id: 2, label: 'Book a ride' },
     { id: 3, label: 'Checkout' },
     // { id: 4, label: 'Booking Summary' },
   ]

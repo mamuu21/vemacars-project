@@ -79,6 +79,9 @@ export default function Header2({ scroll, isMobileMenu, handleMobileMenu, handle
 										<li>
 											<Link href="cars-list-4">Reservations</Link>
 										</li>
+										<li>
+											<Link href="cars-list-4">Tours</Link>
+										</li>
 										
 										{/* <li className="has-children">
 											<Link href="#">Pages</Link>
