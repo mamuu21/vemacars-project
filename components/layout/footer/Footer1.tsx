@@ -1,26 +1,27 @@
 import Link from 'next/link'
+import { sendWhatsAppMessage } from "@/api/whatsapp";
 
 export default function Footer1() {
+	const handleWhatsAppClick = async () => {
+		try {
+			await sendWhatsAppMessage({
+			phone: "+255789478202",
+			message: "Hello 👋 I would like to inquire about car booking.",
+			});
+
+			alert("Message sent! We will respond shortly.");
+		} catch (error) {
+			console.error(error);
+			alert("Failed to send message. Please try again.");
+		}
+	};
+
+
 	return (
 		<>
 			<footer className="footer">
 				<div className="container">
-					{/* <div className="footer-top">
-						<div className="row align-items-center">
-							<div className="col-lg-5 col-md-6 text-center text-md-start">
-								<h5 className="color-white wow fadeInDown">Subscribe to see secret deals prices drop the moment you
-									sign up!</h5>
-							</div>
-							<div className="col-lg-7 col-md-6 text-center text-md-end mt-md-0 mt-4">
-								<div className="d-flex align-items-center justify-content-center justify-content-md-end">
-									<form className="form-newsletter wow fadeInUp" action="#">
-										<input className="form-control" type="text" placeholder="Enter your email" />
-										<input className="btn btn-brand-2" type="submit" defaultValue="Subscribe" />
-									</form>
-								</div>
-							</div>
-						</div>
-					</div> */}
+					
 					<div className="row">
 						<div className="col-md-3 col-sm-12 footer-1">
 							<div className="mt-20 mb-20">
@@ -35,7 +36,14 @@ export default function Footer1() {
 								</div>
 								<div className="box-need-help">
 									<p className="need-help text-md-medium mb-5">Need help? Call us</p>
-									<br /><Link className="heading-6 phone-support" href="/tel:+1 222-555-33-99"> +255 715 000 000</Link>
+									<br />
+									<a
+										className="heading-6 phone-support" 
+										role="button"
+										style={{ cursor: "pointer" }}
+										onClick={handleWhatsAppClick}
+									> +255 789 478 202</a>
+									
 								</div>
 							</div>
 						</div>
