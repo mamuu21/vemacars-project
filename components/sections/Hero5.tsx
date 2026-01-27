@@ -11,7 +11,7 @@ export default function Hero5() {
 				<div className="container position-relative z-1">
 					
 					<h4 className="color-white mb-35">Finally, Professional Car & Scooter rent  <br className="d-none d-lg-block" />
-						possible with Vema Cars</h4>
+						possible with Carento pro</h4>
 
 					<ul className="list-ticks-green">
 						<li>Straight & Simple booking process</li>
