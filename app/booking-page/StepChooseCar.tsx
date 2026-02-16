@@ -1,11 +1,15 @@
-'use client'
-
 import CarCard1 from '@/components/elements/carcard/CarCard1'
-import Search1 from '@/components/sections/Search1'
 import SortCarsFilter from '@/components/elements/SortCarsFilter'
-import rawCarsData from "@/util/cars.json"
 import useCarFilter from '@/util/useCarFilter'
-import { Car } from "./type"
+import { Car } from "@/src/types"
+import { getCars } from '@/src/services/cars'
+import { useEffect, useState } from "react"
+
+// Swiper imports
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation } from "swiper/modules"
+import "swiper/css"
+import "swiper/css/navigation"
 
 type StepChooseCarProps = {
   onBack: () => void
@@ -13,13 +17,10 @@ type StepChooseCarProps = {
   setSelectedCar: (car: Car) => void
 }
 
-const carsData = rawCarsData.map(car => ({
-  ...car,
-  rating: parseFloat(car.rating as string)
-}))
-
 export default function StepChooseCar(props: StepChooseCarProps) {
   const { onBack, onNext, setSelectedCar } = props
+  const [carsData, setCarsData] = useState<Car[]>([])
+  const [loading, setLoading] = useState(true)
   const {
     sortCriteria,
     itemsPerPage,
@@ -30,16 +31,48 @@ export default function StepChooseCar(props: StepChooseCarProps) {
     endItemIndex,
     sortedCars,
   } = useCarFilter(carsData)
-  
-  // Your 3 specific cars
-  const mySpecificCars = sortedCars.slice(0, 3);
+
+  const mySpecificCars = sortedCars
+
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const data = await getCars()
+        console.log("Backend Response:", data)
+
+        // Handling DRF Pagination results field
+        if (data && (data as any).results) {
+          console.log("Using paginated results field")
+          setCarsData((data as any).results)
+        } else {
+          setCarsData(Array.isArray(data) ? data : [])
+        }
+      } catch (error) {
+        console.error("Error fetching cars:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCars()
+  }, [])
+
+  // Debugging logs
+  useEffect(() => {
+    console.log("Total Cars State (carsData):", carsData.length)
+    console.log("Filtered Cars (sortedCars):", sortedCars.length)
+  }, [carsData, sortedCars])
+
+  if (loading) {
+    return <div className="container py-5">Loading vehicles...</div>
+  }
 
   return (
     <>
       <section className="section-box pt-0 background-body">
         <div className="container">
           <div className="row align-items-end">
-            <div className="col-md-9 mb-30 wow fadeInUp">
+            <div className="col-md-9 mb-30">
               <div className="d-flex align-items-center mb-15">
                 <button
                   type="button"
@@ -66,7 +99,6 @@ export default function StepChooseCar(props: StepChooseCarProps) {
                 Turning dreams into reality with versatile vehicles.
               </p>
             </div>
-            {/* Swiper controls column removed as there is no slider anymore */}
           </div>
         </div>
       </section>
@@ -75,7 +107,7 @@ export default function StepChooseCar(props: StepChooseCarProps) {
         <div className="container">
           <div className="box-content-main pt-20">
             <div className="content-right">
-              
+
               {/* FILTER BAR */}
               <div className="box-filters mb-25 pb-5 border-bottom border-1">
                 <SortCarsFilter
@@ -90,19 +122,38 @@ export default function StepChooseCar(props: StepChooseCarProps) {
                 />
               </div>
 
-              {/* NORMAL GRID (Replaced Swiper) */}
-              <div className="row wow fadeIn">
-                {mySpecificCars.map((car) => (
-                  <div key={car.id} className="col-lg-4 col-md-6 col-sm-12 mb-30">
-                    <CarCard1
-                      car={car}
-                      onBook={(selectedCar: Car) => {
-                        setSelectedCar(selectedCar)
-                        onNext()
-                      }}
-                    />
+              {/* SWIPER CAROUSEL */}
+              <div>
+                {mySpecificCars.length === 0 && (
+                  <div className="text-center py-5">
+                    No vehicles available at the moment.
                   </div>
-                ))}
+                )}
+                {mySpecificCars.length > 0 && (
+                  <Swiper
+                    modules={[Navigation]}
+                    navigation
+                    spaceBetween={30}
+                    slidesPerView={1}
+                    breakpoints={{
+                      768: { slidesPerView: 2 },
+                      1200: { slidesPerView: 3 },
+                    }}
+                    className="pb-30"
+                  >
+                    {mySpecificCars.map((car) => (
+                      <SwiperSlide key={car.id} className="mb-30">
+                        <CarCard1
+                          car={car}
+                          onBook={(selectedCar: Car) => {
+                            setSelectedCar(selectedCar)
+                            onNext()
+                          }}
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                )}
               </div>
 
             </div>

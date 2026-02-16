@@ -1,26 +1,14 @@
 'use client'
 import { ChangeEvent, useState } from "react"
-
-interface Car {
-	id: number
-	price: number
-	carType: string
-	amenities: string
-	rating: number
-	name: string
-	fuelType: string
-	location: string
-	image: string
-}
+import { Car } from "@/src/types"
 
 export interface Filter {
 	names: string[]
-	fuelType: string[]
+	fuel_type: string[]
 	amenities: string[]
 	locations: string[]
-	priceRange: [number, number]
 	ratings: number[]
-	carType: string[]
+	car_type: string[]
 }
 
 type SortCriteria = "name" | "price" | "rating"
@@ -28,33 +16,31 @@ type SortCriteria = "name" | "price" | "rating"
 const useCarFilter = (carsData: Car[]) => {
 	const [filter, setFilter] = useState<Filter>({
 		names: [],
-		fuelType: [],
+		fuel_type: [],
 		amenities: [],
 		locations: [],
-		priceRange: [0, 500],
 		ratings: [],
-		carType: [],
+		car_type: [],
 	})
 	const [sortCriteria, setSortCriteria] = useState<SortCriteria>("name")
 	const [itemsPerPage, setItemsPerPage] = useState<number>(10)
 	const [currentPage, setCurrentPage] = useState<number>(1)
 
 	const uniqueNames = [...new Set(carsData.map((car) => car.name))]
-	const uniqueFuelTypes = [...new Set(carsData.map((car) => car.fuelType))]
-	const uniqueAmenities = [...new Set(carsData.map((car) => car.amenities))]
+	const uniqueFuelTypes = [...new Set(carsData.map((car) => car.fuel_type))]
+	const uniqueAmenities = [...new Set(carsData.map((car) => car.amenities || ''))]
 	const uniqueLocations = [...new Set(carsData.map((car) => car.location))]
-	const uniqueRatings = [...new Set(carsData.map((car) => car.rating))]
-	const uniqueCarTypes = [...new Set(carsData.map((car) => car.carType))]
+	const uniqueRatings = [...new Set(carsData.map((car) => car.rating || 0))]
+	const uniqueCarTypes = [...new Set(carsData.map((car) => car.car_type || ''))]
 
 	const filteredCars = carsData.filter((car) => {
 		return (
 			(filter.names.length === 0 || filter.names.includes(car.name)) &&
-			(filter.fuelType.length === 0 || filter.fuelType.includes(car.fuelType)) &&
-			(filter.amenities.length === 0 || filter.amenities.includes(car.amenities)) &&
+			(filter.fuel_type.length === 0 || filter.fuel_type.includes(car.fuel_type ?? "")) &&
+			(filter.amenities.length === 0 || filter.amenities.some(a => car.amenities?.includes(a))) &&
 			(filter.locations.length === 0 || filter.locations.includes(car.location)) &&
-			(car.price >= filter.priceRange[0] && car.price <= filter.priceRange[1]) &&
-			(filter.ratings.length === 0 || filter.ratings.includes(car.rating)) &&
-			(filter.carType.length === 0 || filter.carType.includes(car.carType))
+			(filter.ratings.length === 0 || filter.ratings.includes(car.rating ?? 0)) &&
+			(filter.car_type.length === 0 || (car.car_type && filter.car_type.includes(car.car_type ?? "")))
 		)
 	})
 
@@ -62,9 +48,9 @@ const useCarFilter = (carsData: Car[]) => {
 		if (sortCriteria === "name") {
 			return a.name.localeCompare(b.name)
 		} else if (sortCriteria === "price") {
-			return a.price - b.price
+			return a.price_per_day - b.price_per_day
 		} else if (sortCriteria === "rating") {
-			return b.rating - a.rating
+			return (b.rating || 0) - (a.rating || 0)
 		}
 		return 0
 	})
@@ -93,13 +79,6 @@ const useCarFilter = (carsData: Car[]) => {
 		setSortCriteria(e.target.value as SortCriteria)
 	}
 
-	const handlePriceRangeChange = (values: [number, number]) => {
-		setFilter((prevFilter) => ({
-			...prevFilter,
-			priceRange: values,
-		}))
-	}
-
 	const handleItemsPerPageChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		setItemsPerPage(Number(e.target.value))
 		setCurrentPage(1)
@@ -124,12 +103,11 @@ const useCarFilter = (carsData: Car[]) => {
 	const handleClearFilters = () => {
 		setFilter({
 			names: [],
-			fuelType: [],
+			fuel_type: [],
 			amenities: [],
 			locations: [],
-			priceRange: [0, 500],
 			ratings: [],
-			carType: [],
+			car_type: [],
 		})
 		setSortCriteria("name")
 		setItemsPerPage(4)
@@ -162,7 +140,6 @@ const useCarFilter = (carsData: Car[]) => {
 		paginatedCars,
 		handleCheckboxChange,
 		handleSortChange,
-		handlePriceRangeChange,
 		handleItemsPerPageChange,
 		handlePageChange,
 		handlePreviousPage,

@@ -1,99 +1,100 @@
 'use client'
 import MyDatePicker from '@/components/elements/MyDatePicker'
 import Dropdown from 'react-bootstrap/Dropdown'
-
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 
-import Slider from "react-slick"
-import {Car} from "./type"
+import { Car } from "@/src/types"
+import { getMediaUrl } from '@/src/lib/api'
+import { createBooking } from '@/src/services/bookings'
 
-type StepCarDetailsProps  = {
-    car: Car 
-    onNext : () => void
-    onBack : () => void
+type StepCarDetailsProps = {
+    car: Car
+    startDate: Date | null
+    setStartDate: (date: Date | null) => void
+    endDate: Date | null
+    setEndDate: (date: Date | null) => void
+    selectedLocation: string
+    setSelectedLocation: (value: string) => void
+    selectedDropOff: string
+    setSelectedDropOff: (value: string) => void
+    onNext: () => void
+    onBack: () => void
 }
-
-
-const SlickArrowLeft = ({ currentSlide, slideCount, ...props }: any) => (
-    <button
-        {...props}
-        className={
-            "slick-prev slick-arrow" +
-            (currentSlide === 0 ? " slick-disabled" : "")
-        }
-        type="button"
-    >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M7.99992 3.33325L3.33325 7.99992M3.33325 7.99992L7.99992 12.6666M3.33325 7.99992H12.6666" stroke="" strokeLinecap="round" strokeLinejoin="round"></path></svg>
-    </button>
-)
-
-const SlickArrowRight = ({ currentSlide, slideCount, ...props }: any) => (
-    <button
-        {...props}
-        className={
-            "slick-next slick-arrow" +
-            (currentSlide === slideCount - 1 ? " slick-disabled" : "")
-        }
-        type="button"
-    >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M7.99992 12.6666L12.6666 7.99992L7.99992 3.33325M12.6666 7.99992L3.33325 7.99992" stroke="" strokeLinecap="round" strokeLinejoin="round"> </path></svg>
-    </button>
-)
 
 export default function StepCarDetails({
     car,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    selectedLocation,
+    setSelectedLocation,
+    selectedDropOff,
+    setSelectedDropOff,
     onNext,
     onBack
-    }: StepCarDetailsProps) {
-    const [isOpen, setOpen] = useState(false)
-    const [nav1, setNav1] = useState(null)
-    const [nav2, setNav2] = useState(null)
-    const [slider1, setSlider1] = useState(null)
-    const [slider2, setSlider2] = useState(null)
+}: StepCarDetailsProps) {
 
-    useEffect(() => {
-        setNav1(slider1)
-        setNav2(slider2)
-    }, [slider2, slider1])
-
-    const settingsMain = {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: true,
-        fade: false,
-        prevArrow: <SlickArrowLeft />,
-        nextArrow: <SlickArrowRight />,
-    }
-
-    const settingsThumbs = {
-        slidesToShow: 6,
-        slidesToScroll: 1,
-        asNavFor: nav1,
-        dots: false,
-        focusOnSelect: true,
-        vertical: false,
-        responsive: [
-            { breakpoint: 1200, settings: { slidesToShow: 5 } },
-            { breakpoint: 1024, settings: { slidesToShow: 4 } },
-            { breakpoint: 700, settings: { slidesToShow: 3 } },
-            { breakpoint: 480, settings: { slidesToShow: 2 } },
-        ],
-    }
     const [isAccordion, setIsAccordion] = useState(null)
+    const [isBooking, setIsBooking] = useState(false)
+
+    // Form State
+    // Search/UI state (can remain local or move, but these are for dropdown filtering)
+    const [searchQuery, setSearchQuery] = useState("")
+    const [dropOffSearch, setDropOffSearch] = useState("")
+    const [extras, setExtras] = useState<string[]>([])
+
+
+
+    if (!car) return <div className="container py-5">Car not found</div>
+
+
 
     const handleAccordion = (key: any) => {
         setIsAccordion(prevState => prevState === key ? null : key)
     }
 
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedLocation, setSelectedLocation] = useState("");
+    const toggleExtra = (extra: string) => {
+        setExtras(prev => prev.includes(extra) ? prev.filter(e => e !== extra) : [...prev, extra])
+    }
 
-    // Separate states for Drop Off
-    const [dropOffSearch, setDropOffSearch] = useState("");
-    const [selectedDropOff, setSelectedDropOff] = useState("");
+    // Dynamic Price Calculation
+    const { rentalDays, basePrice, extrasPrice, totalPrice } = useMemo(() => {
+        let days = 1
+        if (startDate && endDate) {
+            const diffTime = Math.abs(endDate.getTime() - startDate.getTime())
+            days = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+            if (days < 1) days = 1
+        }
 
-    // Real common locations in Zanzibar
+        const base = days * Number(car.price_per_day)
+
+        const extraCosts: Record<string, number> = {
+            'GPS': 25,
+            'Child Seat': 32,
+            'Additional Driver': 25,
+            'Insurance': 52
+        }
+
+        const extraSum = extras.reduce((acc, curr) => acc + (extraCosts[curr] || 0), 0)
+
+        return {
+            rentalDays: days,
+            basePrice: base,
+            extrasPrice: extraSum,
+            totalPrice: base + extraSum
+        }
+    }, [startDate, endDate, extras, car.price_per_day])
+
+    const handleBooking = async () => {
+        if (!startDate || !endDate || !selectedLocation || !selectedDropOff) {
+            alert("Please complete all required fields (Dates and Locations)")
+            return
+        }
+        onNext()
+    }
+
     const zanzibarLocations = [
         "Abeid Amani Karume International Airport (ZNZ)",
         "Stone Town, Zanzibar City",
@@ -109,20 +110,41 @@ export default function StepCarDetails({
         "Chwaka Bay"
     ];
 
-    // Filter locations based on typing
-    const filteredLocations = zanzibarLocations.filter(loc =>
+    const filteredPickup = zanzibarLocations.filter(loc =>
         loc.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    const filteredDropOff = zanzibarLocations.filter(loc =>
+        loc.toLowerCase().includes(dropOffSearch.toLowerCase())
+    );
+
+    const sortedImages = car.images?.length
+        ? [...car.images].sort((a, b) => Number(b.is_primary) - Number(a.is_primary))
+        : [];
+
+    const imageUrls = sortedImages.length
+        ? sortedImages.map(img => getMediaUrl(img.image))
+        : [];
+
+    const heroImages = imageUrls.slice(0, 5);
+    const extraImages = imageUrls.slice(5);
+    console.log({
+        startDate,
+        endDate,
+        selectedLocation,
+        selectedDropOff
+    });
+
     return (
         <>
 
             <div>
-                
-               
+
+
                 <section className="box-section box-content-tour-detail background-body pt-0">
                     <div className="container">
                         <div className="tour-header">
-                            
+
                             <div className="row">
                                 <div className="col-lg-8">
                                     <div className="d-flex align-items-center gap-5 mb-30">
@@ -147,20 +169,20 @@ export default function StepCarDetails({
                                                 fill="none"
                                                 xmlns="http://www.w3.org/2000/svg"
                                             >
-                                            <path    
-                                                d="M19 12H5M12 19L5 12L12 5"
-                                                stroke="currentColor"
-                                                strokeWidth="2.8"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
+                                                <path
+                                                    d="M19 12H5M12 19L5 12L12 5"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2.8"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                />
                                             </svg>
                                         </button>
                                         <h6 className="neutral-1000">Book your ride</h6>
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div className="row">
                             <div className="col-lg-4">
@@ -169,40 +191,42 @@ export default function StepCarDetails({
                                         <p className="text-xl-bold neutral-1000">Rent This Vehicle</p>
                                     </div>
                                     <div className="content-booking-form">
-                                       
+
                                         <div className="item-line-booking border-bottom-0 pb-0">
                                             <strong className="text-md-bold neutral-1000">Pick Up location</strong>
 
                                             <div className="input-search">
                                                 <Dropdown className="dropdown w-100">
                                                     <Dropdown.Toggle as="div" className="w-100 position-relative">
-                                                        {/* --- Location Icon --- */}
-                                                        <span 
-                                                            className="position-absolute top-50 translate-middle-y ms-3" 
+                                                        <span
+                                                            className="position-absolute top-50 translate-middle-y ms-3"
                                                             style={{ left: 0, zIndex: 10 }}
                                                         >
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                                                            </svg>
+                                                            {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                                                            </svg> */}
                                                         </span>
-                                                        
+
                                                         <input
                                                             type="text"
                                                             className="form-control ps-5"
                                                             placeholder="Search location..."
                                                             value={searchQuery || selectedLocation}
-                                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                                            onChange={(e) => {
+                                                                setSearchQuery(e.target.value);
+                                                                setSelectedLocation(e.target.value);
+                                                            }}
                                                         />
                                                     </Dropdown.Toggle>
 
                                                     <Dropdown.Menu className="w-100" show={searchQuery.length > 0}>
-                                                        {filteredLocations.length > 0 ? (
-                                                            filteredLocations.map((loc, index) => (
-                                                                <Dropdown.Item 
-                                                                    key={index} 
+                                                        {filteredPickup.length > 0 ? (
+                                                            filteredPickup.map((loc, index) => (
+                                                                <Dropdown.Item
+                                                                    key={index}
                                                                     onClick={() => {
                                                                         setSelectedLocation(loc);
-                                                                        setSearchQuery(""); // Clear search to hide menu
+                                                                        setSearchQuery("");
                                                                     }}
                                                                 >
                                                                     {loc}
@@ -213,7 +237,6 @@ export default function StepCarDetails({
                                                         )}
                                                     </Dropdown.Menu>
                                                 </Dropdown>
-                                               
                                             </div>
                                         </div>
 
@@ -223,33 +246,35 @@ export default function StepCarDetails({
                                             <div className="input-search">
                                                 <Dropdown className="dropdown w-100">
                                                     <Dropdown.Toggle as="div" className="w-100 position-relative">
-                                                        {/* --- Location Icon --- */}
-                                                        <span 
-                                                            className="position-absolute top-50 translate-middle-y ms-3" 
+                                                        <span
+                                                            className="position-absolute top-50 translate-middle-y ms-3"
                                                             style={{ left: 0, zIndex: 10 }}
                                                         >
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                                                            </svg>
+                                                            {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                                                            </svg> */}
                                                         </span>
-                                                        
+
                                                         <input
                                                             type="text"
                                                             className="form-control ps-5"
                                                             placeholder="Search location..."
-                                                            value={dropOffSearch|| selectedDropOff }
-                                                            onChange={(e) => setDropOffSearch(e.target.value)}
+                                                            value={dropOffSearch || selectedDropOff}
+                                                            onChange={(e) => {
+                                                                setDropOffSearch(e.target.value);
+                                                                setSelectedDropOff(e.target.value);
+                                                            }}
                                                         />
                                                     </Dropdown.Toggle>
 
-                                                    <Dropdown.Menu className="w-100" show={searchQuery.length > 0}>
-                                                        {filteredLocations.length > 0 ? (
-                                                            filteredLocations.map((loc, index) => (
-                                                                <Dropdown.Item 
-                                                                    key={index} 
+                                                    <Dropdown.Menu className="w-100" show={dropOffSearch.length > 0}>
+                                                        {filteredDropOff.length > 0 ? (
+                                                            filteredDropOff.map((loc, index) => (
+                                                                <Dropdown.Item
+                                                                    key={index}
                                                                     onClick={() => {
                                                                         setSelectedDropOff(loc);
-                                                                        setDropOffSearch(""); // Clear search to hide menu
+                                                                        setDropOffSearch("");
                                                                     }}
                                                                 >
                                                                     {loc}
@@ -260,94 +285,73 @@ export default function StepCarDetails({
                                                         )}
                                                     </Dropdown.Menu>
                                                 </Dropdown>
-                                               
                                             </div>
                                         </div>
                                         <div className="item-line-booking border-bottom-0 pb-0">
-                                            <strong className="text-md-bold neutral-1000">Pick-Up</strong>
+                                            <strong className="text-md-bold neutral-1000">Rental Start</strong>
                                             <div className="input-calendar">
-                                                <MyDatePicker form />
-                                                <svg width={18} height={18} viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M14.5312 1.3828H13.8595V0.703125C13.8595 0.314789 13.5448 0 13.1564 0C12.7681 0 12.4533 0.314789 12.4533 0.703125V1.3828H5.55469V0.703125C5.55469 0.314789 5.2399 0 4.85156 0C4.46323 0 4.14844 0.314789 4.14844 0.703125V1.3828H3.47678C1.55967 1.3828 0 2.94247 0 4.85954V14.5232C0 16.4403 1.55967 18 3.47678 18H14.5313C16.4483 18 18.008 16.4403 18.008 14.5232V4.85954C18.008 2.94247 16.4483 1.3828 14.5312 1.3828ZM3.47678 2.78905H4.14844V4.16014C4.14844 4.54848 4.46323 4.86327 4.85156 4.86327C5.2399 4.86327 5.55469 4.54848 5.55469 4.16014V2.78905H12.4533V4.16014C12.4533 4.54848 12.7681 4.86327 13.1565 4.86327C13.5448 4.86327 13.8596 4.54848 13.8596 4.16014V2.78905H14.5313C15.6729 2.78905 16.6018 3.71788 16.6018 4.85954V5.53124H1.40625V4.85954C1.40625 3.71788 2.33508 2.78905 3.47678 2.78905ZM14.5312 16.5938H3.47678C2.33508 16.5938 1.40625 15.6649 1.40625 14.5232V6.93749H16.6018V14.5232C16.6018 15.6649 15.6729 16.5938 14.5312 16.5938ZM6.24611 9.70312C6.24611 10.0915 5.93132 10.4062 5.54298 10.4062H4.16018C3.77184 10.4062 3.45705 10.0915 3.45705 9.70312C3.45705 9.31479 3.77184 9 4.16018 9H5.54298C5.93128 9 6.24611 9.31479 6.24611 9.70312ZM14.551 9.70312C14.551 10.0915 14.2362 10.4062 13.8479 10.4062H12.4651C12.0767 10.4062 11.7619 10.0915 11.7619 9.70312C11.7619 9.31479 12.0767 9 12.4651 9H13.8479C14.2362 9 14.551 9.31479 14.551 9.70312ZM10.3945 9.70312C10.3945 10.0915 10.0798 10.4062 9.69142 10.4062H8.30862C7.92028 10.4062 7.60549 10.0915 7.60549 9.70312C7.60549 9.31479 7.92028 9 8.30862 9H9.69142C10.0797 9 10.3945 9.31479 10.3945 9.70312ZM6.24611 13.8516C6.24611 14.2399 5.93132 14.5547 5.54298 14.5547H4.16018C3.77184 14.5547 3.45705 14.2399 3.45705 13.8516C3.45705 13.4632 3.77184 13.1484 4.16018 13.1484H5.54298C5.93128 13.1484 6.24611 13.4632 6.24611 13.8516ZM14.551 13.8516C14.551 14.2399 14.2362 14.5547 13.8479 14.5547H12.4651C12.0767 14.5547 11.7619 14.2399 11.7619 13.8516C11.7619 13.4632 12.0767 13.1484 12.4651 13.1484H13.8479C14.2362 13.1484 14.551 13.4632 14.551 13.8516ZM10.3945 13.8516C10.3945 14.2399 10.0798 14.5547 9.69142 14.5547H8.30862C7.92028 14.5547 7.60549 14.2399 7.60549 13.8516C7.60549 13.4632 7.92028 13.1484 8.30862 13.1484H9.69142C10.0797 13.1484 10.3945 13.4632 10.3945 13.8516Z" fill="currentColor" />
-                                                </svg>
+                                                <MyDatePicker
+                                                    form
+                                                    selectedDate={startDate}
+                                                    onChange={setStartDate}
+                                                />
                                             </div>
                                         </div>
                                         <div className="item-line-booking">
-                                            <strong className="text-md-bold neutral-1000">Drop-Off</strong>
+                                            <strong className="text-md-bold neutral-1000">Rental End</strong>
                                             <div className="input-calendar">
-                                                <MyDatePicker form />
-                                                <svg width={18} height={18} viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M14.5312 1.3828H13.8595V0.703125C13.8595 0.314789 13.5448 0 13.1564 0C12.7681 0 12.4533 0.314789 12.4533 0.703125V1.3828H5.55469V0.703125C5.55469 0.314789 5.2399 0 4.85156 0C4.46323 0 4.14844 0.314789 4.14844 0.703125V1.3828H3.47678C1.55967 1.3828 0 2.94247 0 4.85954V14.5232C0 16.4403 1.55967 18 3.47678 18H14.5313C16.4483 18 18.008 16.4403 18.008 14.5232V4.85954C18.008 2.94247 16.4483 1.3828 14.5312 1.3828ZM3.47678 2.78905H4.14844V4.16014C4.14844 4.54848 4.46323 4.86327 4.85156 4.86327C5.2399 4.86327 5.55469 4.54848 5.55469 4.16014V2.78905H12.4533V4.16014C12.4533 4.54848 12.7681 4.86327 13.1565 4.86327C13.5448 4.86327 13.8596 4.54848 13.8596 4.16014V2.78905H14.5313C15.6729 2.78905 16.6018 3.71788 16.6018 4.85954V5.53124H1.40625V4.85954C1.40625 3.71788 2.33508 2.78905 3.47678 2.78905ZM14.5312 16.5938H3.47678C2.33508 16.5938 1.40625 15.6649 1.40625 14.5232V6.93749H16.6018V14.5232C16.6018 15.6649 15.6729 16.5938 14.5312 16.5938ZM6.24611 9.70312C6.24611 10.0915 5.93132 10.4062 5.54298 10.4062H4.16018C3.77184 10.4062 3.45705 10.0915 3.45705 9.70312C3.45705 9.31479 3.77184 9 4.16018 9H5.54298C5.93128 9 6.24611 9.31479 6.24611 9.70312ZM14.551 9.70312C14.551 10.0915 14.2362 10.4062 13.8479 10.4062H12.4651C12.0767 10.4062 11.7619 10.0915 11.7619 9.70312C11.7619 9.31479 12.0767 9 12.4651 9H13.8479C14.2362 9 14.551 9.31479 14.551 9.70312ZM10.3945 9.70312C10.3945 10.0915 10.0798 10.4062 9.69142 10.4062H8.30862C7.92028 10.4062 7.60549 10.0915 7.60549 9.70312C7.60549 9.31479 7.92028 9 8.30862 9H9.69142C10.0797 9 10.3945 9.31479 10.3945 9.70312ZM6.24611 13.8516C6.24611 14.2399 5.93132 14.5547 5.54298 14.5547H4.16018C3.77184 14.5547 3.45705 14.2399 3.45705 13.8516C3.45705 13.4632 3.77184 13.1484 4.16018 13.1484H5.54298C5.93128 13.1484 6.24611 13.4632 6.24611 13.8516ZM14.551 13.8516C14.551 14.2399 14.2362 14.5547 13.8479 14.5547H12.4651C12.0767 14.5547 11.7619 14.2399 11.7619 13.8516C11.7619 13.4632 12.0767 13.1484 12.4651 13.1484H13.8479C14.2362 13.1484 14.551 13.4632 14.551 13.8516ZM10.3945 13.8516C10.3945 14.2399 10.0798 14.5547 9.69142 14.5547H8.30862C7.92028 14.5547 7.60549 14.2399 7.60549 13.8516C7.60549 13.4632 7.92028 13.1484 8.30862 13.1484H9.69142C10.0797 13.1484 10.3945 13.4632 10.3945 13.8516Z" fill="currentColor" />
-                                                </svg>
+                                                <MyDatePicker
+                                                    form
+                                                    selectedDate={endDate}
+                                                    onChange={setEndDate}
+                                                />
                                             </div>
                                         </div>
                                         <div className="item-line-booking">
                                             <div className="box-tickets">
                                                 <strong className="text-md-bold neutral-1000">Add Extra:</strong>
-                                                <div className="line-booking-tickets">
-                                                    <div className="item-ticket">
-                                                        <ul className="list-filter-checkbox">
-                                                            <li>
-                                                                <label className="cb-container"> <input type="checkbox" /><span className="text-md-medium">GPS Navigation System </span><span className="checkmark" /> </label>
-                                                            </li>
-                                                        </ul>
+                                                {[
+                                                    { id: 'GPS', name: 'GPS Navigation System', price: 25 },
+                                                    { id: 'Child Seat', name: 'Child Seat', price: 32 },
+                                                    { id: 'Additional Driver', name: 'Additional Driver', price: 25 },
+                                                    { id: 'Insurance', name: 'Insurance Coverage', price: 52 }
+                                                ].map(extra => (
+                                                    <div className="line-booking-tickets" key={extra.id}>
+                                                        <div className="item-ticket">
+                                                            <ul className="list-filter-checkbox">
+                                                                <li>
+                                                                    <label className="cb-container">
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            checked={extras.includes(extra.id)}
+                                                                            onChange={() => toggleExtra(extra.id)}
+                                                                        />
+                                                                        <span className="text-md-medium">{extra.name}</span>
+                                                                        <span className="checkmark" />
+                                                                    </label>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div className="include-price">
+                                                            <p className="text-md-bold neutral-1000">${extra.price.toFixed(2)}</p>
+                                                        </div>
                                                     </div>
-                                                    <div className="include-price">
-                                                        <p className="text-md-bold neutral-1000">$25.00</p>
-                                                    </div>
-                                                </div>
-                                                <div className="line-booking-tickets">
-                                                    <div className="item-ticket">
-                                                        <ul className="list-filter-checkbox">
-                                                            <li>
-                                                                <label className="cb-container"> <input type="checkbox" /><span className="text-md-medium">Child Seat </span><span className="checkmark" /> </label>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div className="include-price">
-                                                        <p className="text-md-bold neutral-1000">$32.00</p>
-                                                    </div>
-                                                </div>
-                                                <div className="line-booking-tickets">
-                                                    <div className="item-ticket">
-                                                        <ul className="list-filter-checkbox">
-                                                            <li>
-                                                                <label className="cb-container"> <input type="checkbox" /><span className="text-md-medium">Additional Driver </span><span className="checkmark" /> </label>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div className="include-price">
-                                                        <p className="text-md-bold neutral-1000">$25.00</p>
-                                                    </div>
-                                                </div>
-                                                <div className="line-booking-tickets">
-                                                    <div className="item-ticket">
-                                                        <ul className="list-filter-checkbox">
-                                                            <li>
-                                                                <label className="cb-container"> <input type="checkbox" /><span className="text-md-medium">Insurance Coverage </span><span className="checkmark" /> </label>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div className="include-price">
-                                                        <p className="text-md-bold neutral-1000">$52.00</p>
-                                                    </div>
-                                                </div>
+                                                ))}
                                             </div>
                                         </div>
-                                        
-                                       
                                         <div className="item-line-booking last-item">
                                             <strong className="text-md-bold neutral-1000">Total Payable</strong>
                                             <div className="line-booking-right">
-                                                <p className="text-xl-bold neutral-1000">$124.00</p>
+                                                <p className="text-xl-bold neutral-1000">${totalPrice.toFixed(2)}</p>
                                             </div>
                                         </div>
                                         <div className="box-button-book">
                                             <button
                                                 className="btn btn-book"
-                                                onClick={onNext}
-                                                >
-                                                Book Now
+                                                onClick={handleBooking}
+                                                disabled={isBooking}
+                                            >
+                                                {isBooking ? 'Processing...' : 'Book Now'}
                                                 <svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M8 15L15 8L8 1M15 8L1 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                                 </svg>
@@ -363,91 +367,147 @@ export default function StepCarDetails({
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div className="col-lg-8">
                                 <div className="box-section box-banner-property-detail background-body">
-								<div className="position-relative">
-									<div className="block-banner-property-detail container-banner-activities">
-										<div className="row g-3">
-											<div className="col-lg-7">
-												<div className="position-relative rounded-12 overflow-hidden">
-													<img src="/assets/imgs/cars-details//banner6.png" alt="Travile" />
-													
-												</div>
-											</div>
-											<div className="col-lg-5">
-												<div className="d-flex gap-3">
-													<div className="d-flex gap-3 flex-column w-100">
-														<div className="rounded-12 overflow-hidden w-100"><img className="w-100" src="/assets/imgs/cars-details//banner7.png" alt="Travile" /></div>
-														<div className="rounded-12 overflow-hidden w-100"><img className="w-100" src="/assets/imgs/cars-details//banner8.png" alt="Travile" /></div>
-													</div>
-													<div className="d-flex gap-3 flex-column w-100">
-														<div className="rounded-12 overflow-hidden w-100"><img className="w-100" src="/assets/imgs/cars-details//banner9.png" alt="Travile" /></div>
-														<div className="rounded-12 overflow-hidden w-100"><img className="w-100" src="/assets/imgs/cars-details//banner10.png" alt="Travile" /></div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							    </div>
+                                    <div className="position-relative">
+                                        <div className="block-banner-property-detail container-banner-activities">
+                                            <div className="row g-3">
+                                                <div className="col-lg-7">
+                                                    <div className="position-relative rounded-12 overflow-hidden" style={{ aspectRatio: "4 / 3" }}>
+                                                        <img
+                                                            className="w-100"
+                                                            src={heroImages[0] || "/placeholder.jpg"}
+                                                            alt={car.name}
+                                                            style={{
+                                                                width: "100%",
+                                                                height: "100%",
+                                                                objectFit: "cover"
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-5">
+                                                    <div className="d-flex gap-3">
+                                                        <div className="d-flex gap-3 flex-column w-100">
+                                                            <div className="rounded-12 overflow-hidden w-100" style={{ aspectRatio: "4 / 3" }}>
+                                                                <img
+                                                                    className="w-100"
+                                                                    src={heroImages[1] || "/placeholder.jpg"}
+                                                                    alt={car.name}
+                                                                    style={{
+                                                                        width: "100%",
+                                                                        height: "100%",
+                                                                        objectFit: "cover"
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                            <div className="rounded-12 overflow-hidden w-100" style={{ aspectRatio: "4 / 3" }}>
+                                                                <img
+                                                                    className="w-100"
+                                                                    src={heroImages[2] || "/placeholder.jpg"}
+                                                                    alt={car.name}
+                                                                    style={{
+                                                                        width: "100%",
+                                                                        height: "100%",
+                                                                        objectFit: "cover"
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div className="d-flex gap-3 flex-column w-100">
+                                                            <div className="rounded-12 overflow-hidden w-100" style={{ aspectRatio: "4 / 3" }}>
+                                                                <img
+                                                                    className="w-100"
+                                                                    src={heroImages[3] || "/placeholder.jpg"}
+                                                                    alt={car.name}
+                                                                    style={{
+                                                                        width: "100%",
+                                                                        height: "100%",
+                                                                        objectFit: "cover"
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                            <div className="rounded-12 overflow-hidden w-100" style={{ aspectRatio: "4 / 3" }}>
+                                                                <img
+                                                                    className="w-100"
+                                                                    src={heroImages[4] || "/placeholder.jpg"}
+                                                                    alt={car.name}
+                                                                    style={{
+                                                                        width: "100%",
+                                                                        height: "100%",
+                                                                        objectFit: "cover"
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {extraImages.length > 0 && (
+                                                <div className="row g-3 mt-3">
+                                                    {extraImages.map((img, index) => (
+                                                        <div key={index} className="col-lg-3 col-md-4 col-6">
+                                                            <div className="rounded-12 overflow-hidden w-100" style={{ aspectRatio: "4 / 3" }}>
+                                                                <img
+                                                                    className="w-100"
+                                                                    src={img}
+                                                                    alt={car.name}
+                                                                    style={{
+                                                                        width: "100%",
+                                                                        height: "100%",
+                                                                        objectFit: "cover"
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}                                        </div>
+                                    </div>
+                                </div>
                                 <div className="box-feature-car mt-20">
                                     <div className="list-feature-car align-items-start">
-
                                         <div className="item-feature-car w-md-25">
                                             <div className="item-feature-car-inner">
-                                                <div className="feature-image"><img src="/assets/imgs/page/car/diesel.svg" alt="VemaCars" /></div>
+                                                <div className="feature-image"><img src="/assets/imgs/page/car/diesel.svg" alt="Fuel" /></div>
                                                 <div className="feature-info">
-                                                    <p className="text-md-medium neutral-1000">Diesel</p>
+                                                    <p className="text-md-medium neutral-1000">{car.fuel_type}</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="item-feature-car w-md-25">
                                             <div className="item-feature-car-inner">
-                                                <div className="feature-image"><img src="/assets/imgs/page/car/auto.svg" alt="VemaCars" /></div>
+                                                <div className="feature-image"><img src="/assets/imgs/page/car/auto.svg" alt="Transmission" /></div>
                                                 <div className="feature-info">
-                                                    <p className="text-md-medium neutral-1000">Automatic</p>
+                                                    <p className="text-md-medium neutral-1000">{car.transmission}</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="item-feature-car w-md-25">
                                             <div className="item-feature-car-inner">
-                                                <div className="feature-image"><img src="/assets/imgs/page/car/seat.svg" alt="VemaCars" /></div>
+                                                <div className="feature-image"><img src="/assets/imgs/page/car/seat.svg" alt="Seats" /></div>
                                                 <div className="feature-info">
-                                                    <p className="text-md-medium neutral-1000">7 seats</p>
+                                                    <p className="text-md-medium neutral-1000">{car.seats} seats</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="item-feature-car w-md-25">
-                                            <div className="item-feature-car-inner">
-                                                <div className="feature-image"><img src="/assets/imgs/page/car/bag.svg" alt="VemaCars" /></div>
-                                                <div className="feature-info">
-                                                    <p className="text-md-medium neutral-1000">3 Large bags</p>
+                                        {car.car_type && (
+                                            <div className="item-feature-car w-md-25">
+                                                <div className="item-feature-car-inner">
+                                                    <div className="feature-image"><img src="/assets/imgs/page/car/suv.svg" alt="Type" /></div>
+                                                    <div className="feature-info">
+                                                        <p className="text-md-medium neutral-1000">{car.car_type}</p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        )}
                                         <div className="item-feature-car w-md-25">
                                             <div className="item-feature-car-inner">
-                                                <div className="feature-image"><img src="/assets/imgs/page/car/suv.svg" alt="VemaCars" /></div>
-                                                <div className="feature-info">
-                                                    <p className="text-md-medium neutral-1000">SUVs</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="item-feature-car w-md-25">
-                                            <div className="item-feature-car-inner">
-                                                <div className="feature-image"><img src="/assets/imgs/page/car/door.svg" alt="VemaCars" /></div>
+                                                <div className="feature-image"><img src="/assets/imgs/page/car/door.svg" alt="Doors" /></div>
                                                 <div className="feature-info">
                                                     <p className="text-md-medium neutral-1000">4 Doors</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="item-feature-car w-md-25">
-                                            <div className="item-feature-car-inner">
-                                                <div className="feature-image"><img src="/assets/imgs/page/car/lit.svg" alt="VemaCars" /></div>
-                                                <div className="feature-info">
-                                                    <p className="text-md-medium neutral-1000">2.5L</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -455,34 +515,25 @@ export default function StepCarDetails({
                                 </div>
                                 <div className="box-collapse-expand">
                                     <div className="group-collapse-expand">
-                                        <button className={isAccordion == 1 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" data-bs-toggle="collapse" data-bs-target="#collapseOverview" aria-expanded="false" aria-controls="collapseOverview" onClick={() => handleAccordion(1)}>
+                                        <button className={isAccordion == 1 ? "btn btn-collapse collapsed" : "btn btn-collapse"} type="button" onClick={() => handleAccordion(1)}>
                                             <h6>Overview</h6>
                                             <svg width={12} height={7} viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M1 1L6 6L11 1" stroke="" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                                             </svg>
                                         </button>
-                                        <div className={isAccordion == 1 ? "collapse" : "collapse show"} id="collapseOverview">
+                                        <div className={isAccordion == 1 ? "collapse" : "collapse show"}>
                                             <div className="card card-body">
-                                                <h6 className="neutral-1000">Hyundai Accent 2015 - Modern compact sedan in blue color on beautiful dark wheels</h6>
-                                                <p>Elevate your Las Vegas experience to new heights with a journey aboard The High Roller at The LINQ. As the tallest observation wheel in the world, standing at an impressive 550 feet tall, The High Roller offers a bird's-eye perspective of the iconic Las Vegas Strip and its surrounding desert landscape. From the moment you step into one of the spacious cabins, you'll be transported on a mesmerizing adventure, where every turn offers a new and breathtaking vista of the vibrant city below.</p>
-                                                <p>Whether you're a first-time visitor or a seasoned Las Vegas aficionado, The High Roller promises an unparalleled experience that will leave you in awe. With its climate-controlled cabins and immersive audio commentary, this attraction provides a unique opportunity to see Las Vegas from a whole new perspective, while learning about its rich history and famous landmarks along the way.</p>
+                                                <h6 className="neutral-1000">{car.name}</h6>
+                                                <p>{car.overview || "No overview provided for this vehicle."}</p>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    
                                 </div>
-                                
-                                
                             </div>
                         </div>
                     </div>
-                    
                 </section>
-
-            </div >
-
-          
+            </div>
         </>
     )
 }

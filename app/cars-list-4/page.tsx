@@ -1,50 +1,27 @@
 
 'use client'
-import CarCard1 from '@/components/elements/carcard/CarCard1'
 import CarCard2 from '@/components/elements/carcard/CarCard2'
-import HeroSearch from '@/components/elements/HeroSearch'
 import SortCarsFilter from '@/components/elements/SortCarsFilter'
-import ByAmenities from '@/components/Filter/ByAmenities'
-import ByCarType from '@/components/Filter/ByCarType'
-import ByFuel from '@/components/Filter/ByFuel'
-import ByLocation from '@/components/Filter/ByLocation'
 import ByPagination from '@/components/Filter/ByPagination'
-import ByPrice from '@/components/Filter/ByPrice'
-import ByRating from '@/components/Filter/ByRating'
 import Layout from "@/components/layout/Layout"
-import rawCarsData from "@/util/cars.json"
 import useCarFilter from '@/util/useCarFilter'
-import Link from "next/link"
 import Marquee from 'react-fast-marquee'
-const carsData = rawCarsData.map(car => ({
-	...car,
-	rating: parseFloat(car.rating as string)
-}))
+import { Car } from '@/src/types'
+import { getCars } from '@/src/services/cars'
+import { useEffect, useState } from "react"
+
 export default function CarsList4() {
+	const [carsData, setCarsData] = useState<Car[]>([])
+	const [loading, setLoading] = useState(true)
+
 	const {
-		filter,
-		setFilter,
 		sortCriteria,
-		setSortCriteria,
 		itemsPerPage,
-		setItemsPerPage,
 		currentPage,
-		setCurrentPage,
-		uniqueNames,
-		uniqueFuelTypes,
-		uniqueAmenities,
-		uniqueLocations,
-		uniqueRatings,
-		uniqueCarTypes,
-		filteredCars,
 		sortedCars,
 		totalPages,
-		startIndex,
-		endIndex,
 		paginatedCars,
-		handleCheckboxChange,
 		handleSortChange,
-		handlePriceRangeChange,
 		handleItemsPerPageChange,
 		handlePageChange,
 		handlePreviousPage,
@@ -54,24 +31,39 @@ export default function CarsList4() {
 		endItemIndex,
 	} = useCarFilter(carsData)
 
+	useEffect(() => {
+		const fetchCars = async () => {
+			try {
+				const data = await getCars()
+				setCarsData(data)
+			} catch (error) {
+				console.error("Error fetching cars:", error)
+			} finally {
+				setLoading(false)
+			}
+		}
+
+		fetchCars()
+	}, [])
+
+	if (loading) {
+		return <Layout footerStyle={1}><div className="container py-5 mt-100">Loading vehicles...</div></Layout>
+	}
+
 	return (
 		<>
-
 			<Layout footerStyle={1}>
 				<div>
-					
-					
-					{/* cars-listing-1 */}
 					<section className="section-box pt-50 background-body">
 						<div className="container">
 							<div className="row align-items-end">
 								<div className="col-md-9 mb-30 wow fadeInUp">
-									<h4 className="title-svg neutral-1000 mb-15">My Reservations</h4>
+									<h4 className="title-svg neutral-1000 mb-15">Available Vehicles</h4>
 								</div>
 							</div>
 						</div>
 					</section>
-					
+
 					<section className="box-section block-content-tourlist background-body">
 						<div className="container">
 							<div className="box-content-main pt-20">
@@ -90,6 +82,11 @@ export default function CarsList4() {
 									</div>
 									<div className="box-grid-hotels wow fadeIn">
 										<div className="row">
+											{paginatedCars.length === 0 && (
+												<div className="text-center py-5">
+													No vehicles found matching your criteria.
+												</div>
+											)}
 											{paginatedCars.map((car) => (
 												<div className="col-xl-12 col-lg-12" key={car.id}>
 													<CarCard2 car={car} />
@@ -104,95 +101,30 @@ export default function CarsList4() {
 										handleNextPage={handleNextPage}
 										handlePageChange={handlePageChange}
 									/>
-
 								</div>
-								
 							</div>
 						</div>
 						<div className="background-100 pt-55 pb-55">
 							<div className="container">
-								<Marquee direction='left' pauseOnHover={true} className="carouselTicker carouselTicker-left box-list-brand-car justify-content-center  wow fadeIn">
+								<Marquee direction='left' pauseOnHover={true} className="carouselTicker carouselTicker-left box-list-brand-car justify-content-center wow fadeIn">
 									<ul className="carouselTicker__list">
-										<li className="carouselTicker__item">
-											<div className="item-brand">
-												<img className="light-mode" src="/assets/imgs/page/homepage2/lexus.png" alt="Carento" />
-												<img className="dark-mode" src="/assets/imgs/page/homepage2/lexus-w.png" alt="Carento" />
-											</div>
-										</li>
-										<li className="carouselTicker__item">
-											<div className="item-brand">
-												<img className="light-mode" src="/assets/imgs/page/homepage2/mer.png" alt="Carento" />
-												<img className="dark-mode" src="/assets/imgs/page/homepage2/mer-w.png" alt="Carento" />
-											</div>
-										</li>
-										<li className="carouselTicker__item">
-											<div className="item-brand">
-												<img className="light-mode" src="/assets/imgs/page/homepage2/bugatti.png" alt="Carento" />
-												<img className="dark-mode" src="/assets/imgs/page/homepage2/bugatti-w.png" alt="Carento" />
-											</div>
-										</li>
-										<li className="carouselTicker__item">
-											<div className="item-brand">
-												<img className="light-mode" src="/assets/imgs/page/homepage2/jaguar.png" alt="Carento" />
-												<img className="dark-mode" src="/assets/imgs/page/homepage2/jaguar-w.png" alt="Carento" />
-											</div>
-										</li>
-										<li className="carouselTicker__item">
-											<div className="item-brand">
-												<img className="light-mode" src="/assets/imgs/page/homepage2/honda.png" alt="Carento" />
-												<img className="dark-mode" src="/assets/imgs/page/homepage2/honda-w.png" alt="Carento" />
-											</div>
-										</li>
-										<li className="carouselTicker__item">
-											<div className="item-brand">
-												<img className="light-mode" src="/assets/imgs/page/homepage2/chevrolet.png" alt="Carento" />
-												<img className="dark-mode" src="/assets/imgs/page/homepage2/chevrolet-w.png" alt="Carento" />
-											</div>
-										</li>
-										<li className="carouselTicker__item">
-											<div className="item-brand">
-												<img className="light-mode" src="/assets/imgs/page/homepage2/acura.png" alt="Carento" />
-												<img className="dark-mode" src="/assets/imgs/page/homepage2/acura-w.png" alt="Carento" />
-											</div>
-										</li>
-										<li className="carouselTicker__item">
-											<div className="item-brand">
-												<img className="light-mode" src="/assets/imgs/page/homepage2/bmw.png" alt="Carento" />
-												<img className="dark-mode" src="/assets/imgs/page/homepage2/bmw-w.png" alt="Carento" />
-											</div>
-										</li>
-										<li className="carouselTicker__item">
-											<div className="item-brand">
-												<img className="light-mode" src="/assets/imgs/page/homepage2/toyota.png" alt="Carento" />
-												<img className="dark-mode" src="/assets/imgs/page/homepage2/toyota-w.png" alt="Carento" />
-											</div>
-										</li>
-										<li className="carouselTicker__item">
-											<div className="item-brand">
-												<img className="light-mode" src="/assets/imgs/page/homepage2/lexus.png" alt="Carento" />
-												<img className="dark-mode" src="/assets/imgs/page/homepage2/lexus-w.png" alt="Carento" />
-											</div>
-										</li>
-										<li className="carouselTicker__item">
-											<div className="item-brand">
-												<img className="light-mode" src="/assets/imgs/page/homepage2/mer.png" alt="Carento" />
-												<img className="dark-mode" src="/assets/imgs/page/homepage2/mer-w.png" alt="Carento" />
-											</div>
-										</li>
-										<li className="carouselTicker__item">
-											<div className="item-brand">
-												<img className="light-mode" src="/assets/imgs/page/homepage2/bugatti.png" alt="Carento" />
-												<img className="dark-mode" src="/assets/imgs/page/homepage2/bugatti-w.png" alt="Carento" />
-											</div>
-										</li>
+										{[
+											"lexus", "mer", "bugatti", "jaguar", "honda", "chevrolet", "acura", "bmw", "toyota"
+										].map((brand) => (
+											<li key={brand} className="carouselTicker__item">
+												<div className="item-brand">
+													<img className="light-mode" src={`/assets/imgs/page/homepage2/${brand}.png`} alt={brand} />
+													<img className="dark-mode" src={`/assets/imgs/page/homepage2/${brand}-w.png`} alt={brand} />
+												</div>
+											</li>
+										))}
 									</ul>
 								</Marquee>
 							</div>
 						</div>
 					</section>
-				</div >
-
-			</Layout >
+				</div>
+			</Layout>
 		</>
 	)
 }

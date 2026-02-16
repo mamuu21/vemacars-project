@@ -15,7 +15,7 @@ export default function ProgressBar({ steps, currentStepId }: ProgressBarProps) 
     { id: 1, label: 'Choose a vehicle' },
     { id: 2, label: 'Book a ride' },
     { id: 3, label: 'Checkout' },
-    // { id: 4, label: 'Booking Summary' },
+    { id: 4, label: 'Booking Summary' },
   ]
 
   const stepList = steps || defaultSteps
@@ -37,11 +37,10 @@ export default function ProgressBar({ steps, currentStepId }: ProgressBarProps) 
                   <div key={step.id} className="position-relative" style={{ zIndex: 2 }}>
                     <div className="text-center">
                       <div
-                        className={`mx-auto rounded-circle d-flex align-items-center justify-content-center ${
-                          isActive || isCompleted
+                        className={`mx-auto rounded-circle d-flex align-items-center justify-content-center ${isActive || isCompleted
                             ? 'bg-dark border-dark'
                             : 'bg-white border-gray-300'
-                        }`}
+                          }`}
                         style={{
                           width: '28px',
                           height: '28px',
@@ -117,11 +116,10 @@ export default function ProgressBar({ steps, currentStepId }: ProgressBarProps) 
                     style={{ zIndex: 2 }}
                   >
                     <div
-                      className={`step-circle mb-2 rounded-circle d-flex align-items-center justify-content-center ${
-                        isActive || isCompleted
+                      className={`step-circle mb-2 rounded-circle d-flex align-items-center justify-content-center ${isActive || isCompleted
                           ? 'bg-dark border-dark'
                           : 'bg-white border-gray-300'
-                      }`}
+                        }`}
                       style={{
                         width: '36px',
                         height: '36px',
@@ -150,13 +148,12 @@ export default function ProgressBar({ steps, currentStepId }: ProgressBarProps) 
                     </div>
 
                     <span
-                      className={`text-sm-medium d-none d-lg-block ${
-                        isActive
+                      className={`text-sm-medium d-none d-lg-block ${isActive
                           ? 'text-dark font-semibold'
                           : isCompleted
-                          ? 'text-dark'
-                          : 'text-gray-500'
-                      }`}
+                            ? 'text-dark'
+                            : 'text-gray-500'
+                        }`}
                     >
                       {step.label}
                     </span>

@@ -1,11 +1,71 @@
-'use client'
+
+import { useState } from 'react'
+import { createBooking } from '@/src/services/bookings'
+import { Car } from '@/src/types'
 
 type StepCheckoutProps = {
-  onBack: () => void
+    carId: number
+    car: Car
+    startDate: Date | null
+    endDate: Date | null
+    pickup: string
+    dropoff: string
+    onBack: () => void
+    onBookingSuccess: (data: any) => void
 }
 
 export default function StepCheckout(props: StepCheckoutProps) {
-  const { onBack } = props
+    const { onBack, car, carId, startDate, endDate, pickup, dropoff, onBookingSuccess } = props
+    const [fullName, setFullName] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+    const [notes, setNotes] = useState("")
+    const [loading, setLoading] = useState(false)
+
+    const handleSubmit = async () => {
+        if (!fullName || !email || !phone) {
+            alert("Please fill all required fields")
+            return
+        }
+
+        // SAFE DATE VALIDATION
+        if (!startDate || !endDate) {
+            alert("Invalid rental dates. Please go back and select dates.")
+            return
+        }
+
+        setLoading(true)
+
+        try {
+            const payload = {
+                car: carId,
+                rental_start: startDate.toISOString().split("T")[0],
+                rental_end: endDate.toISOString().split("T")[0],
+                pickup_location: pickup,
+                dropoff_location: dropoff,
+                customer_info: {
+                    full_name: fullName,
+                    email: email,
+                    phone_number: phone,
+                    notes: notes
+                },
+                extras: []
+            }
+
+            const booking = await createBooking(payload)
+            console.log("Booking created:", booking)
+
+            // Redirect after successful booking
+            onBookingSuccess(payload)
+
+        } catch (error) {
+            console.error(error)
+            alert("Booking failed")
+        } finally {
+            setLoading(false)
+        }
+    }
+
 
 
     return (
@@ -15,7 +75,7 @@ export default function StepCheckout(props: StepCheckoutProps) {
                 {/* BACK ARROW */}
                 <div className="d-flex align-items-center gap-3 mb-30">
 
-                {/* BACK ARROW */}
+                    {/* BACK ARROW */}
                     <button
                         type="button"
                         onClick={onBack}
@@ -36,13 +96,13 @@ export default function StepCheckout(props: StepCheckoutProps) {
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                         >
-                        <path    
-                            d="M19 12H5M12 19L5 12L12 5"
-                            stroke="currentColor"
-                            strokeWidth="2.8"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
+                            <path
+                                d="M19 12H5M12 19L5 12L12 5"
+                                stroke="currentColor"
+                                strokeWidth="2.8"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
                         </svg>
                     </button>
 
@@ -60,38 +120,57 @@ export default function StepCheckout(props: StepCheckoutProps) {
                     <div className="row">
                         <div className="col-lg-6">
                             <div className="form-group">
-                                <label className="text-sm-medium neutral-1000">First Name</label>
-                                <input className="form-control username" type="text" placeholder="First Name" />
-                            </div>
-                        </div>
-                        <div className="col-lg-6">
-                            <div className="form-group">
-                                <label className="text-sm-medium neutral-1000">First Name</label>
-                                <input className="form-control username" type="text" placeholder="Last Name" />
+                                <label className="text-sm-medium neutral-1000">Full Name</label>
+                                <input
+                                    className="form-control username"
+                                    type="text"
+                                    placeholder="First Name"
+                                    value={fullName}
+                                    onChange={(e) => setFullName(e.target.value)} />
                             </div>
                         </div>
                         <div className="col-lg-12">
                             <div className="form-group">
                                 <label className="text-sm-medium neutral-1000">Email Adress</label>
-                                <input className="form-control email" type="email" placeholder="email@domain.com" />
+                                <input
+                                    className="form-control email"
+                                    type="email"
+                                    placeholder="email@domain.com"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)} />
                             </div>
                         </div>
                         <div className="col-lg-12">
                             <div className="form-group">
                                 <label className="text-sm-medium neutral-1000">Phone Number</label>
-                                <input className="form-control phone" type="text" placeholder="Phone number" />
+                                <input
+                                    className="form-control phone"
+                                    type="text"
+                                    placeholder="Phone number"
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)} />
                             </div>
                         </div>
                         <div className="col-lg-12">
                             <div className="form-group">
                                 <label className="text-sm-medium neutral-1000">Your Message</label>
-                                <textarea className="form-control" rows={6} placeholder="Leave us a message..." />
+                                <textarea
+                                    className="form-control"
+                                    rows={6}
+                                    placeholder="Leave us a message..."
+                                    value={notes}
+                                    onChange={(e) => setNotes(e.target.value)} />
                             </div>
                         </div>
-                        
+
                         <div className="col-lg-12">
-                            <button className="btn btn-book">
-                                Complete Payment
+                            <button
+                                type="button"
+                                className="btn btn-book"
+                                onClick={handleSubmit}
+                                disabled={loading}
+                            >
+                                {loading ? "Processing..." : "Complete Payment"}
                                 <svg width={17} height={16} viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M8.5 15L15.5 8L8.5 1M15.5 8L1.5 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
@@ -100,7 +179,7 @@ export default function StepCheckout(props: StepCheckoutProps) {
                     </div>
                 </div>
             </div>
-                   
+
         </section>
     )
 }
